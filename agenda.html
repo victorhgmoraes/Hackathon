@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agenda | 1º Hackathon do Curso</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container navbar-content">
+        <a href="index.html" class="logo">
+          <span class="logo-symbol">&lt;/&gt;</span>
+          <span> HACKA<span>THON</span> </span>
+        </a>
+        <nav class="nav-links">
+          <a href="index.html">Início</a>
+          <a href="index.html#sobre">Sobre</a>
+          <a href="index.html#como-funciona"> Como funciona </a>
+          <a href="agenda.html" class="active"> Agenda </a>
+          <a href="resultados.html"> Resultados </a>
+        </nav>
+        <a href="login.html" class="btn btn-outline"> Entrar </a>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+      </div>
+    </header>
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <span class="section-label"> 01 — PROGRAMAÇÃO </span>
+          <h1>
+            Agenda do
+            <span>Hackathon.</span>
+          </h1>
+          <p>
+            Acompanhe todas as etapas do evento, desde a abertura até a
+            apresentação dos projetos.
+          </p>
+        </div>
+      </section>
+      <section class="agenda-section">
+        <div class="container">
+          <div class="day-selector">
+            <button class="day-button active" data-day="todos">Todos</button>
+            <button class="day-button" data-day="sexta">Sexta-feira</button>
+            <button class="day-button" data-day="sabado">Sábado</button>
+            <button class="day-button" data-day="domingo">Domingo</button>
+          </div>
+          <div class="agenda-list" id="agendaList">
+            <!--
+                        Os eventos serão inseridos
+                        pelo JavaScript.
+                    -->
+          </div>
+        </div>
+      </section>
+      <section class="agenda-notice">
+        <div class="container">
+          <div class="notice-card">
+            <div class="notice-icon">!</div>
+            <div>
+              <h3>Programação sujeita a alterações</h3>
+              <p>
+                Os horários e atividades serão atualizados pela comissão
+                organizadora conforme a programação oficial do evento.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="container footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <span class="logo-symbol"> &lt;/&gt; </span>
+            <span> HACKA<span>THON</span> </span>
+          </a>
+          <p>Sistema de apoio ao 1º Hackathon do curso.</p>
+        </div>
+        <div class="footer-links">
+          <div>
+            <strong> Evento </strong>
+            <a href="index.html#sobre"> Sobre </a>
+            <a href="index.html#como-funciona"> Como funciona </a>
+            <a href="agenda.html"> Agenda </a>
+          </div>
+          <div>
+            <strong> Sistema </strong>
+            <a href="login.html"> Entrar </a>
+            <a href="resultados.html"> Resultados </a>
+          </div>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span> © 2026 — 1º Hackathon do Curso </span>
+        <span> Engenharia de Software </span>
+      </div>
+    </footer>
+    <script src="js/script.js"></script>
+  </body>
+</html>

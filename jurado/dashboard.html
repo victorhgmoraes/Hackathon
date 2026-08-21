@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel do Jurado | 1º Hackathon do Curso</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="dashboard-page">
+    <header class="navbar">
+      <div class="container navbar-content">
+        <a href="../index.html" class="logo">
+          <span class="logo-symbol">&lt;/&gt;</span>
+          <span>HACKA<span>THON</span></span>
+        </a>
+        <div class="dashboard-user">
+          <span>Jurado</span>
+          <button id="logoutButton" class="logout-button">Sair</button>
+        </div>
+      </div>
+    </header>
+    <main class="dashboard-main">
+      <div class="dashboard-container">
+        <section class="dashboard-header">
+          <span class="section-label"> PAINEL DO JURADO </span>
+          <h1>
+            Avalie os
+            <span>projetos.</span>
+          </h1>
+          <p>Consulte os projetos inscritos e registre suas avaliações.</p>
+        </section>
+        <section class="dashboard-section">
+          <div class="dashboard-section-header">
+            <div>
+              <span class="section-label"> PROJETOS </span>
+              <h2>Projetos para avaliação</h2>
+            </div>
+          </div>
+          <div class="jury-project-list">
+            <article class="jury-project-card">
+              <div class="jury-project-number">01</div>
+              <div class="jury-project-info">
+                <span class="card-label"> PROJETO </span>
+                <h3>Projeto Exemplo</h3>
+                <p>
+                  Descrição breve do projeto apresentado pela equipe
+                  participante.
+                </p>
+              </div>
+              <div class="jury-project-action">
+                <button
+                  class="btn evaluate-button"
+                  data-project="Projeto Exemplo"
+                >
+                  Avaliar →
+                </button>
+              </div>
+            </article>
+            <article class="jury-project-card">
+              <div class="jury-project-number">02</div>
+              <div class="jury-project-info">
+                <span class="card-label"> EQUIPE </span>
+                <h3>Segundo Projeto</h3>
+                <p>
+                  Descrição breve do projeto apresentado pela equipe
+                  participante.
+                </p>
+              </div>
+              <div class="jury-project-action">
+                <button
+                  class="btn evaluate-button"
+                  data-project="Segundo Projeto"
+                >
+                  Avaliar →
+                </button>
+              </div>
+            </article>
+            <article class="jury-project-card">
+              <div class="jury-project-number">03</div>
+              <div class="jury-project-info">
+                <span class="card-label"> EQUIPE </span>
+                <h3>Terceiro Projeto</h3>
+                <p>
+                  Descrição breve do projeto apresentado pela equipe
+                  participante.
+                </p>
+              </div>
+              <div class="jury-project-action">
+                <button
+                  class="btn evaluate-button"
+                  data-project="Terceiro Projeto"
+                >
+                  Avaliar →
+                </button>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section
+          class="dashboard-section jury-evaluation"
+          id="evaluationSection"
+        >
+          <div class="dashboard-section-header">
+            <div>
+              <span class="section-label"> AVALIAÇÃO </span>
+              <h2>Avaliar projeto</h2>
+            </div>
+          </div>
+          <div class="evaluation-card">
+            <div class="evaluation-project">
+              <span class="card-label"> PROJETO SELECIONADO </span>
+              <h3 id="selectedProject">Selecione um projeto acima</h3>
+            </div>
+            <form id="evaluationForm">
+              <div class="form-group">
+                <label for="nota"> Nota </label>
+                <input
+                  type="number"
+                  id="nota"
+                  name="nota"
+                  min="0"
+                  max="10"
+                  step="0.1"
+                  placeholder="0 a 10"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="comentario"> Comentário </label>
+                <textarea
+                  id="comentario"
+                  name="comentario"
+                  placeholder="Digite um comentário sobre o projeto."
+                  required
+                ></textarea>
+              </div>
+              <div class="login-message" id="evaluationMessage"></div>
+              <button type="submit" class="btn login-button">
+                Salvar avaliação
+                <span>→</span>
+              </button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="login-footer">
+      <span> © 2026 — 1º Hackathon do Curso </span>
+    </footer>
+    <script src="../js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submeter Projeto | 1º Hackathon do Curso</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="login-page">
+    <header class="navbar">
+      <div class="container navbar-content">
+        <a href="../index.html" class="logo">
+          <span class="logo-symbol">&lt;/&gt;</span>
+          <span>HACKA<span>THON</span></span>
+        </a>
+        <a href="dashboard.html" class="back-home">
+          ← Voltar para o dashboard
+        </a>
+      </div>
+    </header>
+    <main class="login-main">
+      <div class="login-container">
+        <section class="login-intro">
+          <span class="section-label"> SUBMISSÃO </span>
+          <h1>
+            Envie seu
+            <span>projeto.</span>
+          </h1>
+          <p>
+            Cadastre as informações do projeto da sua equipe para participar do
+            Hackathon.
+          </p>
+          <div class="login-features">
+            <div class="login-feature">
+              <span class="feature-number"> 01 </span>
+              <div>
+                <strong> Título </strong>
+                <p>Informe o nome do projeto.</p>
+              </div>
+            </div>
+            <div class="login-feature">
+              <span class="feature-number"> 02 </span>
+              <div>
+                <strong> Descrição </strong>
+                <p>Explique brevemente a solução proposta.</p>
+              </div>
+            </div>
+            <div class="login-feature">
+              <span class="feature-number"> 03 </span>
+              <div>
+                <strong> Repositório </strong>
+                <p>Informe o link do projeto no GitHub.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="login-card">
+          <div class="login-card-header">
+            <span class="login-icon"> &lt;/&gt; </span>
+            <div>
+              <h2>Projeto</h2>
+              <p>Dados da submissão</p>
+            </div>
+          </div>
+          <form id="submissaoForm" action="submissao.php" method="POST">
+            <div class="form-group">
+              <label for="titulo">Título do projeto</label>
+              <input type="text" id="titulo" name="titulo" placeholder="Nome do projeto" required />
+            </div>
+            <div class="form-group">
+              <label for="descricao">Descrição</label>
+              <textarea id="descricao" name="descricao" placeholder="Descreva brevemente o projeto e a solução proposta." required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="categoria">Categoria</label>
+              <select id="categoria" name="categoria" required>
+                <option value="">Selecione uma categoria</option>
+                <option value="Tecnologia">Tecnologia</option>
+                <option value="Educação">Educação</option>
+                <option value="Sustentabilidade">Sustentabilidade</option>
+                <option value="Saúde">Saúde</option>
+                <option value="Mobilidade">Mobilidade</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="repositorio">Repositório do projeto</label>
+              <input type="url" id="repositorio" name="repositorio" placeholder="https://github.com/..." />
+            </div>
+            <div class="login-message" id="submissaoMessage"></div>
+            <button type="submit" class="btn login-button">
+              Submeter projeto
+              <span>→</span>
+            </button>
+          </form>
+        </section>
+      </div>
+    </main>
+    <footer class="login-footer">
+      <span> © 2026 — 1º Hackathon do Curso </span>
+    </footer>
+    <script src="../js/script.js"></script>
+  </body>
+</html>
