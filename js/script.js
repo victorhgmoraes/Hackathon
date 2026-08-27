@@ -361,7 +361,7 @@ if (loginForm) {
 
       setTimeout(() => {
         if (resultado.tipo === "jurado") {
-          window.location.href = "jurado/dashboard.html";
+          window.location.href = "jurado/dashboard.php";
         } else {
           window.location.href = "participante/dashboard.php";
         }

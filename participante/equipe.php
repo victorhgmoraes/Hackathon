@@ -50,7 +50,25 @@ if (!$usuario) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $acao = $_POST["acao"] ?? "";
 
-  if ($usuario["equipe_id"]) {
+  if ($acao === "sair") {
+    if (!$usuario["equipe_id"]) {
+      $mensagem = "Você não está em nenhuma equipe.";
+      $tipoMensagem = "erro";
+    } else {
+      $sqlSair = "
+        DELETE FROM participantes
+        WHERE usuario_id = :usuario_id
+      ";
+
+      $stmtSair = $pdo->prepare($sqlSair);
+      $stmtSair->execute([
+        ":usuario_id" => $usuarioId
+      ]);
+
+      header("Location: dashboard.php");
+      exit;
+    }
+  } elseif ($usuario["equipe_id"]) {
     $mensagem = "Você já está participando de uma equipe.";
     $tipoMensagem = "erro";
   } elseif ($acao === "criar") {
@@ -249,6 +267,13 @@ $equipes = $stmtEquipes->fetchAll(PDO::FETCH_ASSOC);
             Voltar para o dashboard
             <span>→</span>
           </a>
+          <form method="POST">
+            <input type="hidden" name="acao" value="sair" />
+            <button type="submit" class="btn login-button">
+              Sair da equipe
+              <span>×</span>
+            </button>
+          </form>
         <?php endif; ?>
       </section>
     </div>
