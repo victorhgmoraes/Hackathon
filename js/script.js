@@ -1,6 +1,6 @@
 const menuToggle = document.getElementById("menuToggle");
 const navLinks = document.querySelector(".nav-links");
-if (menuToggle) {
+if (menuToggle && navLinks) {
   menuToggle.addEventListener("click", () => {
     navLinks.classList.toggle("mobile-active");
   });
@@ -175,136 +175,6 @@ dayButtons.forEach((button) => {
 });
 renderAgenda();
 
-const resultados = [
-  {
-    posicao: 1,
-    projeto: "EcoTech",
-    equipe: "Green Solutions",
-    categoria: "Sustentabilidade",
-    nota: 9.42,
-  },
-
-  {
-    posicao: 2,
-    projeto: "Campus Connect",
-    equipe: "Connect Team",
-    categoria: "Tecnologia",
-    nota: 9.18,
-  },
-
-  {
-    posicao: 3,
-    projeto: "Smart Campus",
-    equipe: "NextGen",
-    categoria: "Educação",
-    nota: 8.91,
-  },
-
-  {
-    posicao: 4,
-    projeto: "SafeRoute",
-    equipe: "Pathfinders",
-    categoria: "Mobilidade",
-    nota: 8.67,
-  },
-
-  {
-    posicao: 5,
-    projeto: "Green Food",
-    equipe: "EcoCoders",
-    categoria: "Sustentabilidade",
-    nota: 8.42,
-  },
-
-  {
-    posicao: 6,
-    projeto: "HealthHub",
-    equipe: "DevHealth",
-    categoria: "Saúde",
-    nota: 8.21,
-  },
-];
-
-function renderPodium() {
-  const podium = document.getElementById("podium");
-  if (!podium) {
-    return;
-  }
-  const primeiros = resultados.slice(0, 3);
-  const ordem = [primeiros[1], primeiros[0], primeiros[2]];
-  const classes = ["second", "first", "third"];
-  const medalhas = ["🥈", "🏆", "🥉"];
-  podium.innerHTML = "";
-  ordem.forEach((resultado, index) => {
-    if (!resultado) {
-      return;
-    }
-    const card = document.createElement("div");
-    card.classList.add("podium-card", classes[index]);
-    card.innerHTML = `
-            <div class="podium-medal">
-                ${medalhas[index]}
-            </div>
-            <div class="podium-position">
-                ${resultado.posicao}º
-            </div>
-            <h3>
-                ${resultado.projeto}
-            </h3>
-            <div class="podium-team">
-                ${resultado.equipe}
-            </div>
-            <div class="podium-score">
-                ${resultado.nota.toFixed(2)}
-                <small>/ 10</small>
-            </div>
-        `;
-    podium.appendChild(card);
-  });
-}
-
-function renderRanking() {
-  const rankingList = document.getElementById("rankingList");
-  const rankingCount = document.getElementById("rankingCount");
-  if (!rankingList) {
-    return;
-  }
-  rankingList.innerHTML = "";
-  resultados.forEach((resultado) => {
-    const item = document.createElement("div");
-    item.classList.add("ranking-item");
-    item.innerHTML = `
-            <div class="ranking-position">
-                ${String(resultado.posicao).padStart(2, "0")}
-            </div>
-            <div class="ranking-project">
-                <strong>
-                    ${resultado.projeto}
-                </strong>
-                <span>
-                    ${resultado.equipe}
-                </span>
-            </div>
-            <div class="ranking-category">
-                ${resultado.categoria}
-            </div>
-            <div class="ranking-score">
-                ${resultado.nota.toFixed(2)}
-                <small>
-                    / 10
-                </small>
-            </div>
-        `;
-    rankingList.appendChild(item);
-  });
-
-  if (rankingCount) {
-    rankingCount.textContent = `${resultados.length} projetos`;
-  }
-}
-renderPodium();
-renderRanking();
-
 const togglePassword = document.getElementById("togglePassword");
 const passwordInput = document.getElementById("password");
 if (togglePassword && passwordInput) {
@@ -318,6 +188,7 @@ if (togglePassword && passwordInput) {
     }
   });
 }
+
 const loginForm = document.getElementById("loginForm");
 const loginMessage = document.getElementById("loginMessage");
 
