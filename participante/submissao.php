@@ -23,13 +23,45 @@ try {
 }
 
 $usuarioId = $_SESSION["usuario_id"];
+
 $titulo = trim($_POST["titulo"] ?? "");
 $descricao = trim($_POST["descricao"] ?? "");
 $categoria = trim($_POST["categoria"] ?? "");
 $repositorio = trim($_POST["repositorio"] ?? "");
 
-if ($titulo === "" || $descricao === "" || $categoria === "") {
+$categoriasValidas = [
+  "Tecnologia",
+  "Educação",
+  "Sustentabilidade",
+  "Saúde",
+  "Mobilidade",
+  "Outros"
+];
+
+if ($titulo === "" || $descricao === "" || $categoria === "" || $repositorio === "") {
   die("Preencha todos os campos obrigatórios.");
+}
+
+if (strlen($titulo) > 100) {
+  die("O título do projeto deve ter no máximo 100 caracteres.");
+}
+
+if (strlen($descricao) > 1000) {
+  die("A descrição deve ter no máximo 1000 caracteres.");
+}
+
+if (!in_array($categoria, $categoriasValidas, true)) {
+  die("Categoria inválida.");
+}
+
+if (!filter_var($repositorio, FILTER_VALIDATE_URL)) {
+  die("Informe uma URL válida para o repositório.");
+}
+
+$protocolo = parse_url($repositorio, PHP_URL_SCHEME);
+
+if (!in_array(strtolower($protocolo), ["http", "https"], true)) {
+  die("Informe uma URL válida para o repositório.");
 }
 
 $sqlEquipe = "
@@ -79,10 +111,9 @@ $stmt->execute([
   ":equipe_id" => $equipeId,
   ":nome" => $titulo,
   ":descricao" => $descricao,
-  ":repositorio" => $repositorio !== "" ? $repositorio : null,
+  ":repositorio" => $repositorio,
   ":categoria" => $categoria
 ]);
 
 header("Location: dashboard.php");
 exit;
-?>

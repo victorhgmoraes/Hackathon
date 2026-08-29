@@ -3,106 +3,101 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Confira a programação do 1º Hackathon do curso." />
     <title>Agenda | 1º Hackathon do Curso</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/agenda.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <!-- NAVEGAÇÃO -->
     <header class="navbar">
       <div class="container navbar-content">
         <a href="index.html" class="logo">
           <span class="logo-symbol">&lt;/&gt;</span>
-          <span> HACKA<span>THON</span> </span>
+          <span>HACKA<span>THON</span></span>
         </a>
-        <nav class="nav-links">
+        <nav class="nav-links" id="navLinks">
           <a href="index.html">Início</a>
           <a href="index.html#sobre">Sobre</a>
-          <a href="index.html#como-funciona"> Como funciona </a>
-          <a href="agenda.html" class="active"> Agenda </a>
-          <a href="resultados.php"> Resultados </a>
+          <a href="index.html#etapas">Etapas</a>
+          <a href="agenda.html" class="active">Agenda</a>
+          <a href="resultados.php">Resultados</a>
         </nav>
-        <a href="login.html" class="btn btn-outline"> Entrar </a>
-        <button class="menu-toggle" id="menuToggle">☰</button>
+        <a href="login.html" class="btn btn-outline">Entrar</a>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-controls="navLinks" aria-expanded="false">
+          ☰
+        </button>
       </div>
     </header>
     <main>
+      <!-- CABEÇALHO -->
       <section class="page-header">
         <div class="container">
-          <span class="section-label"> 01 — PROGRAMAÇÃO </span>
-          <h1>
-            Agenda do
-            <span>Hackathon.</span>
-          </h1>
-          <p>
-            Acompanhe todas as etapas do evento, desde a abertura até a
-            apresentação dos projetos.
-          </p>
+          <span class="section-label">PROGRAMAÇÃO</span>
+          <h1>Agenda do <span>Hackathon.</span></h1>
+          <p>Acompanhe a programação do evento e confira os horários das principais atividades do Hackathon.</p>
         </div>
       </section>
+      <!-- AGENDA -->
       <section class="agenda-section">
         <div class="container">
-          <div class="day-selector">
-            <button class="day-button active" data-day="todos">Todos</button>
-            <button class="day-button" data-day="sexta">Sexta-feira</button>
-            <button class="day-button" data-day="sabado">Sábado</button>
-            <button class="day-button" data-day="domingo">Domingo</button>
+          <div class="section-heading">
+            <span class="section-label">PROGRAMAÇÃO DO EVENTO</span>
+            <h2>Confira cada <span>etapa.</span></h2>
+            <p>Utilize os filtros para visualizar a programação de cada dia do evento.</p>
           </div>
+          <!-- FILTROS -->
+          <div class="day-selector" role="group" aria-label="Filtrar programação por dia">
+            <button type="button" class="day-button active" data-day="todos">Todos</button>
+            <button type="button" class="day-button" data-day="sexta">Sexta-feira</button>
+            <button type="button" class="day-button" data-day="sabado">Sábado</button>
+            <button type="button" class="day-button" data-day="domingo">Domingo</button>
+          </div>
+          <!-- EVENTOS -->
           <div class="agenda-list" id="agendaList">
-            <!--
-                        Os eventos serão inseridos
-                        pelo JavaScript.
-                    -->
+            <!-- Os eventos são carregados pelo JavaScript. -->
           </div>
         </div>
       </section>
+      <!-- AVISO -->
       <section class="agenda-notice">
         <div class="container">
           <div class="notice-card">
             <div class="notice-icon">!</div>
-            <div>
+            <div class="notice-content">
+              <span class="notice-label">ATENÇÃO</span>
               <h3>Programação sujeita a alterações</h3>
-              <p>
-                Os horários e atividades serão atualizados pela comissão
-                organizadora conforme a programação oficial do evento.
-              </p>
+              <p>Os horários e atividades podem ser atualizados pela comissão organizadora conforme a programação oficial do evento.</p>
             </div>
           </div>
         </div>
       </section>
     </main>
+    <!-- RODAPÉ -->
     <footer class="footer">
       <div class="container footer-content">
         <div class="footer-brand">
           <a href="index.html" class="logo">
-            <span class="logo-symbol"> &lt;/&gt; </span>
-            <span> HACKA<span>THON</span> </span>
+            <span class="logo-symbol">&lt;/&gt;</span>
+            <span>HACKA<span>THON</span></span>
           </a>
           <p>Sistema de apoio ao 1º Hackathon do curso.</p>
         </div>
-        <div class="footer-links">
-          <div>
-            <strong> Evento </strong>
-            <a href="index.html#sobre"> Sobre </a>
-            <a href="index.html#como-funciona"> Como funciona </a>
-            <a href="agenda.html"> Agenda </a>
-          </div>
-          <div>
-            <strong> Sistema </strong>
-            <a href="login.html"> Entrar </a>
-            <a href="resultados.php"> Resultados </a>
-          </div>
-        </div>
+        <nav class="footer-links" aria-label="Links do rodapé">
+          <a href="index.html#sobre">Sobre</a>
+          <a href="index.html#etapas">Como funciona</a>
+          <a href="agenda.html">Agenda</a>
+          <a href="resultados.php">Resultados</a>
+          <a href="login.html">Entrar</a>
+        </nav>
       </div>
       <div class="container footer-bottom">
-        <span> © 2026 — 1º Hackathon do Curso </span>
-        <span> Engenharia de Software </span>
+        <span>© 2026 — 1º Hackathon do Curso</span>
+        <span>Engenharia de Software</span>
       </div>
     </footer>
-    <script src="js/script.js"></script>
+    <script src="js/agenda.js"></script>
   </body>
 </html>

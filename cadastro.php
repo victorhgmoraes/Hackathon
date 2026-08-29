@@ -1,5 +1,7 @@
 <?php
 
+header("Content-Type: application/json; charset=UTF-8");
+
 $host = "localhost";
 $dbname = "hackathon";
 $user = "root";
@@ -22,7 +24,7 @@ try {
 }
 $dados = json_decode(file_get_contents("php://input"), true);
 $nome = trim($dados["nome"] ?? "");
-$email = trim($dados["email"] ?? "");
+$email = strtolower(trim($dados["email"] ?? ""));
 $matricula = trim($dados["matricula"] ?? "");
 $senha = $dados["senha"] ?? "";
 if ($nome === "" || $email === "" || $matricula === "" || $senha === "") {

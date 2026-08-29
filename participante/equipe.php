@@ -12,12 +12,9 @@ $user = "root";
 $password = "";
 
 try {
-  $pdo = new PDO(
-    "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
-    $user,
-    $password
-  );
+  $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $password);
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   die("Erro ao conectar com o banco de dados.");
 }
@@ -26,8 +23,9 @@ $usuarioId = $_SESSION["usuario_id"];
 $mensagem = "";
 $tipoMensagem = "";
 
+/* Buscar usuário e equipe */
 $sqlUsuario = "
-  SELECT u.nome, p.equipe_id
+  SELECT u.id, u.nome, u.email, u.matricula, p.equipe_id
   FROM usuarios u
   LEFT JOIN participantes p ON p.usuario_id = u.id
   WHERE u.id = :usuario_id
@@ -35,11 +33,8 @@ $sqlUsuario = "
 ";
 
 $stmtUsuario = $pdo->prepare($sqlUsuario);
-$stmtUsuario->execute([
-  ":usuario_id" => $usuarioId
-]);
-
-$usuario = $stmtUsuario->fetch(PDO::FETCH_ASSOC);
+$stmtUsuario->execute([":usuario_id" => $usuarioId]);
+$usuario = $stmtUsuario->fetch();
 
 if (!$usuario) {
   session_destroy();
@@ -47,23 +42,19 @@ if (!$usuario) {
   exit;
 }
 
+/* Processar ações do formulário */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $acao = $_POST["acao"] ?? "";
 
+  /* Sair da equipe */
   if ($acao === "sair") {
     if (!$usuario["equipe_id"]) {
-      $mensagem = "Você não está em nenhuma equipe.";
+      $mensagem = "Você não está participando de nenhuma equipe.";
       $tipoMensagem = "erro";
     } else {
-      $sqlSair = "
-        DELETE FROM participantes
-        WHERE usuario_id = :usuario_id
-      ";
-
+      $sqlSair = "DELETE FROM participantes WHERE usuario_id = :usuario_id";
       $stmtSair = $pdo->prepare($sqlSair);
-      $stmtSair->execute([
-        ":usuario_id" => $usuarioId
-      ]);
+      $stmtSair->execute([":usuario_id" => $usuarioId]);
 
       header("Location: dashboard.php");
       exit;
@@ -72,214 +63,250 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $mensagem = "Você já está participando de uma equipe.";
     $tipoMensagem = "erro";
   } elseif ($acao === "criar") {
+    /* Criar nova equipe */
     $nomeEquipe = trim($_POST["nome_equipe"] ?? "");
 
     if ($nomeEquipe === "") {
       $mensagem = "Informe o nome da equipe.";
       $tipoMensagem = "erro";
-    } else {
-      $sqlEquipe = "INSERT INTO equipes (nome) VALUES (:nome)";
-      $stmtEquipe = $pdo->prepare($sqlEquipe);
-      $stmtEquipe->execute([
-        ":nome" => $nomeEquipe
-      ]);
-
-      $equipeId = $pdo->lastInsertId();
-
-      $sqlParticipante = "
-        INSERT INTO participantes (usuario_id, equipe_id)
-        VALUES (:usuario_id, :equipe_id)
-      ";
-
-      $stmtParticipante = $pdo->prepare($sqlParticipante);
-      $stmtParticipante->execute([
-        ":usuario_id" => $usuarioId,
-        ":equipe_id" => $equipeId
-      ]);
-
-      header("Location: dashboard.php");
-      exit;
-    }
-  } elseif ($acao === "entrar") {
-    $equipeId = (int) ($_POST["equipe_id"] ?? 0);
-
-    if ($equipeId <= 0) {
-      $mensagem = "Selecione uma equipe.";
+    } elseif (mb_strlen($nomeEquipe) > 100) {
+      $mensagem = "O nome da equipe deve ter no máximo 100 caracteres.";
       $tipoMensagem = "erro";
     } else {
-      $sqlEquipe = "
-        SELECT id
-        FROM equipes
-        WHERE id = :equipe_id
-        LIMIT 1
-      ";
+      try {
+        $pdo->beginTransaction();
 
-      $stmtEquipe = $pdo->prepare($sqlEquipe);
-      $stmtEquipe->execute([
-        ":equipe_id" => $equipeId
-      ]);
+        $sqlEquipe = "INSERT INTO equipes (nome) VALUES (:nome)";
+        $stmtEquipe = $pdo->prepare($sqlEquipe);
+        $stmtEquipe->execute([":nome" => $nomeEquipe]);
+        $equipeId = $pdo->lastInsertId();
 
-      if (!$stmtEquipe->fetch()) {
-        $mensagem = "A equipe selecionada não existe.";
-        $tipoMensagem = "erro";
-      } else {
-        $sqlParticipante = "
-          INSERT INTO participantes (usuario_id, equipe_id)
-          VALUES (:usuario_id, :equipe_id)
-        ";
-
+        $sqlParticipante = "INSERT INTO participantes (usuario_id, equipe_id) VALUES (:usuario_id, :equipe_id)";
         $stmtParticipante = $pdo->prepare($sqlParticipante);
         $stmtParticipante->execute([
           ":usuario_id" => $usuarioId,
           ":equipe_id" => $equipeId
         ]);
 
+        $pdo->commit();
         header("Location: dashboard.php");
         exit;
+      } catch (PDOException $e) {
+        if ($pdo->inTransaction()) {
+          $pdo->rollBack();
+        }
+        $mensagem = "Não foi possível criar a equipe.";
+        $tipoMensagem = "erro";
+      }
+    }
+  } elseif ($acao === "entrar") {
+    /* Entrar em equipe existente */
+    $equipeId = (int) ($_POST["equipe_id"] ?? 0);
+
+    if ($equipeId <= 0) {
+      $mensagem = "Selecione uma equipe.";
+      $tipoMensagem = "erro";
+    } else {
+      $sqlEquipe = "SELECT id FROM equipes WHERE id = :equipe_id LIMIT 1";
+      $stmtEquipe = $pdo->prepare($sqlEquipe);
+      $stmtEquipe->execute([":equipe_id" => $equipeId]);
+      $equipeExiste = $stmtEquipe->fetch();
+
+      if (!$equipeExiste) {
+        $mensagem = "A equipe selecionada não existe.";
+        $tipoMensagem = "erro";
+      } else {
+        try {
+          $sqlParticipante = "INSERT INTO participantes (usuario_id, equipe_id) VALUES (:usuario_id, :equipe_id)";
+          $stmtParticipante = $pdo->prepare($sqlParticipante);
+          $stmtParticipante->execute([
+            ":usuario_id" => $usuarioId,
+            ":equipe_id" => $equipeId
+          ]);
+
+          header("Location: dashboard.php");
+          exit;
+        } catch (PDOException $e) {
+          if ($e->getCode() === "23000") {
+            $mensagem = "Você já está participando de uma equipe.";
+          } else {
+            $mensagem = "Não foi possível entrar na equipe.";
+          }
+          $tipoMensagem = "erro";
+        }
       }
     }
   }
 }
 
+/* Listar equipes disponíveis */
 $sqlEquipes = "
-  SELECT
-    e.id,
-    e.nome,
-    COUNT(p.id) AS integrantes
+  SELECT e.id, e.nome, COUNT(p.id) AS integrantes
   FROM equipes e
   LEFT JOIN participantes p ON p.equipe_id = e.id
   GROUP BY e.id, e.nome
-  ORDER BY e.nome
+  ORDER BY e.nome ASC
 ";
-$stmtEquipes = $pdo->query($sqlEquipes);
-$equipes = $stmtEquipes->fetchAll(PDO::FETCH_ASSOC);
-?>
 
+$stmtEquipes = $pdo->query($sqlEquipes);
+$equipes = $stmtEquipes->fetchAll();
+?>
 <!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Equipe | 1º Hackathon do Curso</title>
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/equipe.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
-<body class="login-page">
+<body class="team-page">
+  <!-- Navbar -->
   <header class="navbar">
     <div class="container navbar-content">
       <a href="../index.html" class="logo">
         <span class="logo-symbol">&lt;/&gt;</span>
         <span>HACKA<span>THON</span></span>
       </a>
-      <a href="dashboard.php" class="back-home">
-        ← Voltar para o dashboard
-      </a>
+      <div class="navbar-user">
+        <span><?= htmlspecialchars($usuario["nome"]) ?></span>
+        <a href="../logout.php" class="logout-button">Sair</a>
+      </div>
     </div>
   </header>
-  <main class="login-main">
-    <div class="login-container">
-      <section class="login-intro">
-        <span class="section-label">EQUIPE</span>
-        <h1>
-          Monte sua
-          <span>equipe.</span>
-        </h1>
-        <p>
-          Crie uma nova equipe ou entre em uma equipe existente para participar do Hackathon.
-        </p>
-        <div class="login-features">
-          <div class="login-feature">
-            <span class="feature-number">01</span>
-            <div>
-              <strong>Criar equipe</strong>
-              <p>Crie uma equipe e torne-se automaticamente seu primeiro integrante.</p>
-            </div>
-          </div>
-          <div class="login-feature">
-            <span class="feature-number">02</span>
-            <div>
-              <strong>Entrar</strong>
-              <p>Escolha uma equipe existente e participe dela.</p>
-            </div>
-          </div>
-          <div class="login-feature">
-            <span class="feature-number">03</span>
-            <div>
-              <strong>Projeto</strong>
-              <p>Depois de formar sua equipe, vocês poderão submeter o projeto.</p>
-            </div>
-          </div>
+  <!-- Conteúdo Principal -->
+  <main class="team-main">
+    <div class="container team-container">
+      <!-- Cabeçalho -->
+      <section class="team-header">
+        <div class="team-header-content">
+          <span class="section-label">ÁREA DO PARTICIPANTE</span>
+          <h1>Monte sua <span>equipe.</span></h1>
+          <p>Crie uma nova equipe ou entre em uma equipe existente para participar do Hackathon.</p>
         </div>
+        <a href="dashboard.php" class="back-button">← Voltar para o dashboard</a>
       </section>
-      <section class="login-card">
-        <div class="login-card-header">
-          <span class="login-icon">&lt;/&gt;</span>
-          <div>
-            <h2>Minha equipe</h2>
-            <p>Crie ou entre em uma equipe</p>
-          </div>
+      <!-- Mensagens de Erro/Sucesso -->
+      <?php if ($mensagem): ?>
+        <div class="form-message show <?= htmlspecialchars($tipoMensagem) ?>">
+          <span class="message-icon">!</span>
+          <span><?= htmlspecialchars($mensagem) ?></span>
         </div>
-        <?php if ($mensagem): ?>
-          <div class="login-message show">
-            <?= htmlspecialchars($mensagem) ?>
-          </div>
-        <?php endif; ?>
-        <?php if (!$usuario["equipe_id"]): ?>
-          <form method="POST">
-            <input type="hidden" name="acao" value="criar" />
-            <div class="form-group">
-              <label for="nome_equipe">Nome da equipe</label>
-              <input type="text" id="nome_equipe" name="nome_equipe" placeholder="Digite o nome da equipe" required />
+      <?php endif; ?>
+      <?php if (!$usuario["equipe_id"]): ?>
+        <!-- Opções de Equipe -->
+        <section class="team-options">
+          <!-- Criar Equipe -->
+          <article class="team-card">
+            <div class="card-number">01</div>
+            <div class="card-content">
+              <span class="card-label">NOVA EQUIPE</span>
+              <h2>Crie sua equipe</h2>
+              <p>Dê um nome para sua equipe e torne-se automaticamente seu primeiro integrante.</p>
+              <form method="POST">
+                <input type="hidden" name="acao" value="criar" />
+                <div class="form-group">
+                  <label for="nome_equipe">Nome da equipe</label>
+                  <input type="text" id="nome_equipe" name="nome_equipe" placeholder="Ex.: Code Masters" maxlength="100" required />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  Criar equipe
+                  <span>→</span>
+                </button>
+              </form>
             </div>
-            <button type="submit" class="btn login-button">
-              Criar equipe
-              <span>→</span>
-            </button>
-          </form>
-          <div class="login-divider">
+          </article>
+          <!-- Divisor -->
+          <div class="team-divider">
             <span>ou</span>
           </div>
-          <form method="POST">
-            <input type="hidden" name="acao" value="entrar" />
-            <div class="form-group">
-              <label for="equipe_id">Entrar em uma equipe</label>
-              <select id="equipe_id" name="equipe_id" required>
-                <option value="">Selecione uma equipe</option>
-                <?php foreach ($equipes as $equipe): ?>
-                  <option value="<?= $equipe["id"] ?>">
-                    <?= htmlspecialchars($equipe["nome"]) ?> — <?= $equipe["integrantes"] ?> integrante(s)
-                  </option>
-                <?php endforeach; ?>
-              </select>
+          <!-- Entrar em Equipe -->
+          <article class="team-card">
+            <div class="card-number">02</div>
+            <div class="card-content">
+              <span class="card-label">EQUIPE EXISTENTE</span>
+              <h2>Entre em uma equipe</h2>
+              <p>Escolha uma equipe existente e participe dela para desenvolver o projeto.</p>
+              <form method="POST">
+                <input type="hidden" name="acao" value="entrar" />
+                <div class="form-group">
+                  <label for="equipe_id">Equipe</label>
+                  <select id="equipe_id" name="equipe_id" required>
+                    <option value="">Selecione uma equipe</option>
+                    <?php foreach ($equipes as $equipe): ?>
+                      <option value="<?= (int) $equipe["id"] ?>">
+                        <?= htmlspecialchars($equipe["nome"]) ?> — <?= (int) $equipe["integrantes"] ?> integrante(s)
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  Entrar na equipe
+                  <span>→</span>
+                </button>
+              </form>
             </div>
-            <button type="submit" class="btn login-button">
-              Entrar na equipe
-              <span>→</span>
-            </button>
-          </form>
-        <?php else: ?>
-          <div class="login-message show">
-            Você já está em uma equipe. Volte ao dashboard para continuar.
+          </article>
+        </section>
+        <!-- Informações -->
+        <section class="team-info">
+          <div class="info-item">
+            <span class="info-number">01</span>
+            <div>
+              <strong>Forme sua equipe</strong>
+              <p>Reúna os participantes que irão trabalhar juntos durante o Hackathon.</p>
+            </div>
           </div>
-          <a href="dashboard.php" class="btn login-button">
-            Voltar para o dashboard
-            <span>→</span>
-          </a>
-          <form method="POST">
-            <input type="hidden" name="acao" value="sair" />
-            <button type="submit" class="btn login-button">
-              Sair da equipe
-              <span>×</span>
-            </button>
-          </form>
-        <?php endif; ?>
-      </section>
+          <div class="info-item">
+            <span class="info-number">02</span>
+            <div>
+              <strong>Desenvolva o projeto</strong>
+              <p>Depois de formar a equipe, vocês poderão cadastrar e submeter o projeto.</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-number">03</span>
+            <div>
+              <strong>Participe do Hackathon</strong>
+              <p>Acompanhe as informações e atividades disponíveis para sua equipe.</p>
+            </div>
+          </div>
+        </section>
+      <?php else: ?>
+        <!-- Equipe Atual -->
+        <section class="current-team">
+          <div class="current-team-top">
+            <span class="card-label">MINHA EQUIPE</span>
+            <span class="team-status">PARTICIPANDO</span>
+          </div>
+          <div class="current-team-icon">&lt;/&gt;</div>
+          <h2>Você já está em uma equipe.</h2>
+          <p>Para continuar, volte ao dashboard e acompanhe as informações da sua equipe e do projeto.</p>
+          <div class="current-team-actions">
+            <a href="dashboard.php" class="btn btn-primary">
+              Voltar para o dashboard
+              <span>→</span>
+            </a>
+            <form method="POST">
+              <input type="hidden" name="acao" value="sair" />
+              <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair da equipe?');">
+                Sair da equipe
+                <span>×</span>
+              </button>
+            </form>
+          </div>
+        </section>
+      <?php endif; ?>
     </div>
   </main>
-  <footer class="login-footer">
-    <span>© 2026 — 1º Hackathon do Curso</span>
+  <!-- Rodapé -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <span>© 2026 — 1º Hackathon do Curso</span>
+      <span>Engenharia de Software</span>
+    </div>
   </footer>
   <script src="../js/script.js"></script>
 </body>

@@ -1,275 +1,164 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1º Hackathon do Curso</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <header class="navbar">
-      <div class="container navbar-content">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sistema de apoio ao 1º Hackathon do curso." />
+  <title>1º Hackathon do Curso</title>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="logo">
+        <span class="logo-symbol">&lt;/&gt;</span>
+        <span>HACKA<span>THON</span></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#inicio">Início</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#etapas">Etapas</a>
+        <a href="agenda.html">Agenda</a>
+        <a href="resultados.php">Resultados</a>
+      </nav>
+      <a href="login.html" class="btn btn-outline">Entrar</a>
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-controls="navLinks" aria-expanded="false">☰</button>
+    </div>
+  </header>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <span class="section-label">1º HACKATHON DO CURSO</span>
+          <h1>Transforme uma ideia em <span>uma solução.</span></h1>
+          <p>Um desafio de inovação e tecnologia no qual equipes desenvolvem soluções para um problema real e apresentam seus projetos aos jurados.</p>
+          <div class="hero-actions">
+            <a href="login.html" class="btn btn-primary">Acessar o sistema <span>→</span></a>
+            <a href="agenda.html" class="btn btn-secondary">Ver agenda</a>
+          </div>
+        </div>
+        <div class="hero-info">
+          <div class="info-item">
+            <strong>Equipes</strong>
+            <span>Cadastro e organização</span>
+          </div>
+          <div class="info-item">
+            <strong>Projetos</strong>
+            <span>Submissão das soluções</span>
+          </div>
+          <div class="info-item">
+            <strong>Avaliação</strong>
+            <span>Julgamento dos projetos</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="sobre">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-label">SOBRE O EVENTO</span>
+          <h2>Um sistema para apoiar <span>todo o Hackathon.</span></h2>
+          <p>A plataforma centraliza as principais atividades do evento, facilitando o trabalho das equipes, dos jurados e da comissão organizadora.</p>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card">
+            <span class="feature-number">01</span>
+            <h3>Equipes</h3>
+            <p>Cadastre e organize os participantes em suas respectivas equipes.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-number">02</span>
+            <h3>Projetos</h3>
+            <p>Envie as informações e o repositório do projeto desenvolvido pela equipe.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-number">03</span>
+            <h3>Avaliações</h3>
+            <p>Permita que os jurados registrem notas e comentários sobre os projetos.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-number">04</span>
+            <h3>Resultados</h3>
+            <p>Consulte publicamente os resultados após a avaliação dos projetos.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="section stages" id="etapas">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-label">COMO FUNCIONA</span>
+          <h2>Da equipe ao <span>resultado.</span></h2>
+          <p>O sistema acompanha as principais etapas da participação no Hackathon.</p>
+        </div>
+        <div class="stages-list">
+          <article class="stage">
+            <span class="stage-number">01</span>
+            <div>
+              <h3>Forme sua equipe</h3>
+              <p>Cadastre-se e participe de uma equipe para desenvolver o projeto.</p>
+            </div>
+          </article>
+          <article class="stage">
+            <span class="stage-number">02</span>
+            <div>
+              <h3>Desenvolva o projeto</h3>
+              <p>Trabalhe na solução e registre as informações do projeto no sistema.</p>
+            </div>
+          </article>
+          <article class="stage">
+            <span class="stage-number">03</span>
+            <div>
+              <h3>Submeta a solução</h3>
+              <p>Envie o projeto e o link do repositório para avaliação.</p>
+            </div>
+          </article>
+          <article class="stage">
+            <span class="stage-number">04</span>
+            <div>
+              <h3>Acompanhe o resultado</h3>
+              <p>Após as avaliações, consulte os resultados disponibilizados publicamente.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="access">
+      <div class="container access-content">
+        <div>
+          <span class="section-label">SISTEMA</span>
+          <h2>Acesse a plataforma do Hackathon.</h2>
+          <p>Participe de uma equipe, envie seu projeto ou realize as avaliações como jurado.</p>
+        </div>
+        <a href="login.html" class="btn btn-primary">Entrar no sistema <span>→</span></a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>
         <a href="index.html" class="logo">
           <span class="logo-symbol">&lt;/&gt;</span>
           <span>HACKA<span>THON</span></span>
         </a>
-        <nav class="nav-links">
-          <a href="#inicio">Início</a>
-          <a href="#sobre">Sobre</a>
-          <a href="#como-funciona">Como funciona</a>
-          <a href="agenda.html">Agenda</a>
-          <a href="resultados.php">Resultados</a>
-        </nav>
-        <a href="login.html" class="btn btn-outline"> Entrar </a>
-        <button class="menu-toggle" id="menuToggle">☰</button>
+        <p>Sistema de apoio ao 1º Hackathon do curso.</p>
       </div>
-    </header>
-    <main>
-      <section class="hero" id="inicio">
-        <div class="hero-background"></div>
-        <div class="container hero-content">
-          <div class="hero-text">
-            <div class="event-badge">
-              <span class="status-dot"></span>
-              1º HACKATHON DO CURSO
-            </div>
-            <h1>
-              Ideias que
-              <span>ganham vida.</span>
-            </h1>
-            <p>
-              Um desafio de inovação, criatividade e tecnologia. Forme sua
-              equipe, desenvolva sua ideia e transforme problemas em soluções.
-            </p>
-            <div class="hero-buttons">
-              <a href="login.html" class="btn btn-primary">
-                Participar do Hackathon
-                <span>→</span>
-              </a>
-
-              <a href="#sobre" class="btn btn-secondary"> Conheça o evento </a>
-            </div>
-            <div class="hero-info">
-              <div class="info-item">
-                <strong>24–48h</strong>
-                <span>de duração</span>
-              </div>
-              <div class="info-divider"></div>
-              <div class="info-item">
-                <strong>3–5</strong>
-                <span>participantes por equipe</span>
-              </div>
-              <div class="info-divider"></div>
-              <div class="info-item">
-                <strong>Presencial</strong>
-                <span>no campus</span>
-              </div>
-            </div>
-          </div>
-          <div class="hero-visual">
-            <div class="code-window">
-              <div class="window-header">
-                <div class="window-dots">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <span>hackathon.js</span>
-              </div>
-              <div class="code-content">
-                <p>
-                  <span class="code-purple">const</span>
-                  <span class="code-blue">ideia</span>
-                  =
-                  <span class="code-green">"inovação"</span>;
-                </p>
-                <p>
-                  <span class="code-purple">const</span>
-                  <span class="code-blue">equipe</span>
-                  =
-                  <span class="code-green">"criatividade"</span>;
-                </p>
-                <br />
-                <p>
-                  <span class="code-purple">function</span>
-                  <span class="code-yellow">hackathon</span>() {
-                </p>
-                <p class="indent">
-                  <span class="code-purple">return</span>
-                  ideia + equipe;
-                </p>
-                <p>}</p>
-                <br />
-                <p class="code-comment">// Vamos construir algo incrível.</p>
-                <p>
-                  <span class="code-blue">start</span>();
-                  <span class="cursor"></span>
-                </p>
-              </div>
-            </div>
-            <div class="floating-card card-one">
-              <span class="floating-icon">⚡</span>
-              <div>
-                <strong>Inove</strong>
-                <small>Crie soluções</small>
-              </div>
-            </div>
-            <div class="floating-card card-two">
-              <span class="floating-icon">🚀</span>
-              <div>
-                <strong>Construa</strong>
-                <small>Transforme ideias</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section about" id="sobre">
-        <div class="container">
-          <div class="section-heading">
-            <span class="section-label">01 — SOBRE O EVENTO</span>
-            <h2>
-              Onde problemas encontram
-              <span>boas ideias.</span>
-            </h2>
-            <p>
-              O Hackathon reúne estudantes em equipes para criar soluções
-              durante um desafio intensivo de inovação, colaboração e
-              tecnologia.
-            </p>
-          </div>
-          <div class="about-grid">
-            <div class="about-card">
-              <div class="card-number">01</div>
-              <div class="card-icon">💡</div>
-              <h3>Crie</h3>
-              <p>Desenvolva uma ideia capaz de solucionar um problema real.</p>
-            </div>
-            <div class="about-card featured">
-              <div class="card-number">02</div>
-              <div class="card-icon">🤝</div>
-              <h3>Colabore</h3>
-              <p>
-                Trabalhe em equipe e combine diferentes conhecimentos para
-                construir sua solução.
-              </p>
-            </div>
-            <div class="about-card">
-              <div class="card-number">03</div>
-              <div class="card-icon">🚀</div>
-              <h3>Apresente</h3>
-              <p>
-                Mostre sua solução para os jurados e conquiste seu espaço no
-                resultado final.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section process" id="como-funciona">
-        <div class="container">
-          <div class="section-heading centered">
-            <span class="section-label">02 — COMO FUNCIONA</span>
-            <h2>
-              Do problema ao
-              <span>protótipo.</span>
-            </h2>
-            <p>Uma jornada de criação, desenvolvimento e apresentação.</p>
-          </div>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-number">01</div>
-              <div class="timeline-content">
-                <span>ETAPA 01</span>
-                <h3>Forme sua equipe</h3>
-                <p>Reúna de 3 a 5 participantes e prepare-se para o desafio.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-number">02</div>
-              <div class="timeline-content">
-                <span>ETAPA 02</span>
-                <h3>Desenvolva sua ideia</h3>
-                <p>
-                  Identifique o problema e desenvolva uma solução durante o
-                  Hackathon.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-number">03</div>
-              <div class="timeline-content">
-                <span>ETAPA 03</span>
-                <h3>Apresente o projeto</h3>
-                <p>
-                  Apresente sua solução para os jurados e defenda sua proposta.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-number">04</div>
-              <div class="timeline-content">
-                <span>ETAPA 04</span>
-                <h3>Acompanhe o resultado</h3>
-                <p>
-                  Confira as avaliações e o resultado final diretamente pelo
-                  sistema.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="cta">
-        <div class="container cta-content">
-          <div>
-            <span class="section-label">03 — PRONTO PARA O DESAFIO?</span>
-            <h2>
-              Sua ideia pode ser
-              <span>a próxima grande solução.</span>
-            </h2>
-          </div>
-          <a href="login.html" class="btn btn-primary">
-            Acessar o sistema
-            <span>→</span>
-          </a>
-        </div>
-      </section>
-    </main>
-    <footer class="footer">
-      <div class="container footer-content">
-        <div class="footer-brand">
-          <a href="index.html" class="logo">
-            <span class="logo-symbol">&lt;/&gt;</span>
-            <span>HACKA<span>THON</span></span>
-          </a>
-          <p>Sistema de apoio ao 1º Hackathon do curso.</p>
-        </div>
-        <div class="footer-links">
-          <div>
-            <strong>Evento</strong>
-            <a href="#sobre">Sobre</a>
-            <a href="#como-funciona">Como funciona</a>
-            <a href="agenda.html">Agenda</a>
-          </div>
-          <div>
-            <strong>Sistema</strong>
-            <a href="login.html">Entrar</a>
-            <a href="resultados.php">Resultados</a>
-          </div>
-        </div>
-      </div>
-      <div class="container footer-bottom">
-        <span> © 2026 — 1º Hackathon do Curso </span>
-        <span> Engenharia de Software </span>
-      </div>
-    </footer>
-    <script src="js/script.js"></script>
-  </body>
+      <nav class="footer-links" aria-label="Links do rodapé">
+        <a href="#sobre">Sobre</a>
+        <a href="#etapas">Como funciona</a>
+        <a href="agenda.html">Agenda</a>
+        <a href="resultados.php">Resultados</a>
+        <a href="login.html">Entrar</a>
+      </nav>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 — 1º Hackathon do Curso</span>
+      <span>Engenharia de Software</span>
+    </div>
+  </footer>
+  <script src="js/index.js"></script>
+</body>
 </html>

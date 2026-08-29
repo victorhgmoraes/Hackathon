@@ -4,83 +4,95 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Submeter Projeto | 1º Hackathon do Curso</title>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/submissao.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
-  <body class="login-page">
+  <body class="submission-page">
+    <!-- NAVBAR -->
     <header class="navbar">
       <div class="container navbar-content">
         <a href="../index.html" class="logo">
           <span class="logo-symbol">&lt;/&gt;</span>
           <span>HACKA<span>THON</span></span>
         </a>
-        <a href="dashboard.html" class="back-home">
+        <a href="dashboard.php" class="back-link">
           ← Voltar para o dashboard
         </a>
       </div>
     </header>
-    <main class="login-main">
-      <div class="login-container">
-        <section class="login-intro">
-          <span class="section-label"> SUBMISSÃO </span>
+    <!-- CONTEÚDO -->
+    <main class="submission-main">
+      <div class="container submission-container">
+        <!-- INTRODUÇÃO -->
+        <section class="submission-intro">
+          <span class="section-label">SUBMISSÃO</span>
           <h1>
             Envie seu
             <span>projeto.</span>
           </h1>
           <p>
-            Cadastre as informações do projeto da sua equipe para participar do
-            Hackathon.
+            Cadastre as informações do projeto da sua equipe para participar do Hackathon.
           </p>
-          <div class="login-features">
-            <div class="login-feature">
-              <span class="feature-number"> 01 </span>
+          <div class="submission-info">
+            <div class="info-item">
+              <span class="info-number">01</span>
               <div>
-                <strong> Título </strong>
-                <p>Informe o nome do projeto.</p>
+                <h3>Título</h3>
+                <p>Informe o nome que identifica o projeto da equipe.</p>
               </div>
             </div>
-            <div class="login-feature">
-              <span class="feature-number"> 02 </span>
+            <div class="info-item">
+              <span class="info-number">02</span>
               <div>
-                <strong> Descrição </strong>
-                <p>Explique brevemente a solução proposta.</p>
+                <h3>Descrição</h3>
+                <p>Explique de forma clara a solução proposta pela equipe.</p>
               </div>
             </div>
-            <div class="login-feature">
-              <span class="feature-number"> 03 </span>
+            <div class="info-item">
+              <span class="info-number">03</span>
               <div>
-                <strong> Repositório </strong>
-                <p>Informe o link do projeto no GitHub.</p>
+                <h3>Categoria</h3>
+                <p>Escolha a área que melhor representa o projeto.</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="info-number">04</span>
+              <div>
+                <h3>Repositório</h3>
+                <p>Informe o endereço do repositório público do projeto.</p>
               </div>
             </div>
           </div>
         </section>
-        <section class="login-card">
-          <div class="login-card-header">
-            <span class="login-icon"> &lt;/&gt; </span>
+        <!-- CARD DE SUBMISSÃO -->
+        <section class="submission-card">
+          <div class="card-header">
+            <span class="card-icon">&lt;/&gt;</span>
             <div>
-              <h2>Projeto</h2>
-              <p>Dados da submissão</p>
+              <span class="card-label">PROJETO</span>
+              <h2>Nova submissão</h2>
+              <p>Preencha os dados do projeto</p>
             </div>
           </div>
           <form id="submissaoForm" action="submissao.php" method="POST">
+            <!-- TÍTULO -->
             <div class="form-group">
               <label for="titulo">Título do projeto</label>
-              <input type="text" id="titulo" name="titulo" placeholder="Nome do projeto" required />
+              <input type="text" id="titulo" name="titulo" placeholder="Nome do projeto" maxlength="100" required />
             </div>
+            <!-- DESCRIÇÃO -->
             <div class="form-group">
               <label for="descricao">Descrição</label>
-              <textarea id="descricao" name="descricao" placeholder="Descreva brevemente o projeto e a solução proposta." required></textarea>
+              <textarea id="descricao" name="descricao" placeholder="Descreva brevemente o projeto e a solução proposta." maxlength="1000" required></textarea>
+              <span class="field-hint">Máximo de 1000 caracteres.</span>
             </div>
+            <!-- CATEGORIA -->
             <div class="form-group">
               <label for="categoria">Categoria</label>
               <select id="categoria" name="categoria" required>
-                <option value="">Selecione uma categoria</option>
+                <option value="" disabled selected>Selecione uma categoria</option>
                 <option value="Tecnologia">Tecnologia</option>
                 <option value="Educação">Educação</option>
                 <option value="Sustentabilidade">Sustentabilidade</option>
@@ -89,12 +101,16 @@
                 <option value="Outros">Outros</option>
               </select>
             </div>
+            <!-- REPOSITÓRIO -->
             <div class="form-group">
               <label for="repositorio">Repositório do projeto</label>
-              <input type="url" id="repositorio" name="repositorio" placeholder="https://github.com/..." />
+              <input type="url" id="repositorio" name="repositorio" placeholder="https://github.com/..." autocomplete="url" required />
+              <span class="field-hint">Informe o link do repositório do projeto no GitHub.</span>
             </div>
-            <div class="login-message" id="submissaoMessage"></div>
-            <button type="submit" class="btn login-button">
+            <!-- MENSAGEM -->
+            <div class="form-message" id="submissaoMessage"></div>
+            <!-- BOTÃO -->
+            <button type="submit" class="btn btn-primary submission-button">
               Submeter projeto
               <span>→</span>
             </button>
@@ -102,8 +118,12 @@
         </section>
       </div>
     </main>
-    <footer class="login-footer">
-      <span> © 2026 — 1º Hackathon do Curso </span>
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-content">
+        <span>© 2026 — 1º Hackathon do Curso</span>
+        <span>Engenharia de Software</span>
+      </div>
     </footer>
     <script src="../js/script.js"></script>
   </body>
