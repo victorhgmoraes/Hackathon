@@ -315,14 +315,24 @@ input {
   display: none;
   padding: 13px 15px;
   border-radius: 9px;
-  background: rgba(220, 38, 38, 0.06);
-  border: 1px solid rgba(220, 38, 38, 0.15);
-  color: #b42318;
   font-size: 13px;
   line-height: 1.5;
 }
+
 .form-message.show {
   display: block;
+}
+
+.form-message.error {
+  background: rgba(220, 38, 38, 0.06);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  color: #b42318;
+}
+
+.form-message.success {
+  background: rgba(1, 159, 72, 0.08);
+  border: 1px solid rgba(1, 159, 72, 0.20);
+  color: var(--verde);
 }
 
 /* BOTÃO */

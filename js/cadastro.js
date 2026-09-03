@@ -7,7 +7,6 @@ const passwordInput = document.getElementById("password");
 const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
 const confirmPasswordInput = document.getElementById("confirmPassword");
 
-// MOSTRAR / OCULTAR SENHA
 if (togglePassword && passwordInput) {
   togglePassword.addEventListener("click", () => {
     if (passwordInput.type === "password") {
@@ -20,7 +19,6 @@ if (togglePassword && passwordInput) {
   });
 }
 
-// MOSTRAR / OCULTAR CONFIRMAÇÃO DE SENHA
 if (toggleConfirmPassword && confirmPasswordInput) {
   toggleConfirmPassword.addEventListener("click", () => {
     if (confirmPasswordInput.type === "password") {
@@ -33,7 +31,6 @@ if (toggleConfirmPassword && confirmPasswordInput) {
   });
 }
 
-// CADASTRO
 if (cadastroForm) {
   cadastroForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -42,22 +39,19 @@ if (cadastroForm) {
     const email = document.getElementById("email").value.trim();
     const matricula = document.getElementById("matricula").value.trim();
     const senha = document.getElementById("password").value;
-    const confirmPassword =
-      document.getElementById("confirmPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
-    cadastroMessage.classList.remove("show");
+    cadastroMessage.className = "form-message";
 
-    // VERIFICA CAMPOS
     if (!nome || !email || !matricula || !senha || !confirmPassword) {
       cadastroMessage.textContent = "Preencha todos os campos.";
-      cadastroMessage.classList.add("show");
+      cadastroMessage.classList.add("show", "error");
       return;
     }
 
-    // VERIFICA SENHAS
     if (senha !== confirmPassword) {
       cadastroMessage.textContent = "As senhas não coincidem.";
-      cadastroMessage.classList.add("show");
+      cadastroMessage.classList.add("show", "error");
       return;
     }
 
@@ -78,22 +72,22 @@ if (cadastroForm) {
       const resultado = await resposta.json();
 
       cadastroMessage.textContent = resultado.mensagem;
-      cadastroMessage.classList.add("show");
 
-      // CADASTRO REALIZADO
       if (resultado.sucesso) {
+        cadastroMessage.classList.add("show", "success");
         cadastroForm.reset();
 
         setTimeout(() => {
           window.location.href = "login.html";
         }, 1500);
+      } else {
+        cadastroMessage.classList.add("show", "error");
       }
     } catch (erro) {
       console.error(erro);
 
-      cadastroMessage.textContent =
-        "Erro ao conectar com o servidor.";
-      cadastroMessage.classList.add("show");
+      cadastroMessage.textContent = "Erro ao conectar com o servidor.";
+      cadastroMessage.classList.add("show", "error");
     }
   });
 }

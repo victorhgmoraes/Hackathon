@@ -23,11 +23,11 @@ if (loginForm) {
     const email = document.getElementById("email").value.trim();
     const senha = document.getElementById("password").value;
 
-    loginMessage.classList.remove("show");
+    loginMessage.className = "form-message";
 
     if (!email || !senha) {
       loginMessage.textContent = "Preencha seu e-mail e sua senha.";
-      loginMessage.classList.add("show");
+      loginMessage.classList.add("show", "error");
       return;
     }
 
@@ -47,12 +47,12 @@ if (loginForm) {
 
       if (!resultado.sucesso) {
         loginMessage.textContent = resultado.mensagem;
-        loginMessage.classList.add("show");
+        loginMessage.classList.add("show", "error");
         return;
       }
 
       loginMessage.textContent = resultado.mensagem;
-      loginMessage.classList.add("show");
+      loginMessage.classList.add("show", "success");
 
       setTimeout(() => {
         if (resultado.tipo === "jurado") {
@@ -65,7 +65,7 @@ if (loginForm) {
       console.error(erro);
 
       loginMessage.textContent = "Erro ao conectar com o servidor.";
-      loginMessage.classList.add("show");
+      loginMessage.classList.add("show", "error");
     }
   });
 }

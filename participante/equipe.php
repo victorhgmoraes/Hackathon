@@ -23,7 +23,6 @@ $usuarioId = $_SESSION["usuario_id"];
 $mensagem = "";
 $tipoMensagem = "";
 
-/* Buscar usuário e equipe */
 $sqlUsuario = "
   SELECT u.id, u.nome, u.email, u.matricula, p.equipe_id
   FROM usuarios u
@@ -42,12 +41,60 @@ if (!$usuario) {
   exit;
 }
 
-/* Processar ações do formulário */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $acao = $_POST["acao"] ?? "";
 
-  /* Sair da equipe */
-  if ($acao === "sair") {
+  if ($acao === "excluir_projeto") {
+    if (!$usuario["equipe_id"]) {
+      $mensagem = "Você não está participando de nenhuma equipe.";
+      $tipoMensagem = "erro";
+    } else {
+      try {
+        $pdo->beginTransaction();
+
+        $sqlProjeto = "
+          SELECT id
+          FROM projetos
+          WHERE equipe_id = :equipe_id
+          LIMIT 1
+        ";
+
+        $stmtProjeto = $pdo->prepare($sqlProjeto);
+        $stmtProjeto->execute([":equipe_id" => $usuario["equipe_id"]]);
+        $projeto = $stmtProjeto->fetch();
+
+        if (!$projeto) {
+          $pdo->rollBack();
+          $mensagem = "Sua equipe não possui um projeto cadastrado.";
+          $tipoMensagem = "erro";
+        } else {
+          $sqlAvaliacoes = "DELETE FROM avaliacoes WHERE projeto_id = :projeto_id";
+          $stmtAvaliacoes = $pdo->prepare($sqlAvaliacoes);
+          $stmtAvaliacoes->execute([":projeto_id" => $projeto["id"]]);
+
+          $sqlExcluir = "
+            DELETE FROM projetos
+            WHERE id = :projeto_id AND equipe_id = :equipe_id
+          ";
+          $stmtExcluir = $pdo->prepare($sqlExcluir);
+          $stmtExcluir->execute([
+            ":projeto_id" => $projeto["id"],
+            ":equipe_id" => $usuario["equipe_id"]
+          ]);
+
+          $pdo->commit();
+          $mensagem = "Projeto excluído com sucesso.";
+          $tipoMensagem = "sucesso";
+        }
+      } catch (PDOException $e) {
+        if ($pdo->inTransaction()) {
+          $pdo->rollBack();
+        }
+        $mensagem = "Não foi possível excluir o projeto.";
+        $tipoMensagem = "erro";
+      }
+    }
+  } elseif ($acao === "sair") {
     if (!$usuario["equipe_id"]) {
       $mensagem = "Você não está participando de nenhuma equipe.";
       $tipoMensagem = "erro";
@@ -55,7 +102,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $sqlSair = "DELETE FROM participantes WHERE usuario_id = :usuario_id";
       $stmtSair = $pdo->prepare($sqlSair);
       $stmtSair->execute([":usuario_id" => $usuarioId]);
-
       header("Location: dashboard.php");
       exit;
     }
@@ -63,7 +109,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $mensagem = "Você já está participando de uma equipe.";
     $tipoMensagem = "erro";
   } elseif ($acao === "criar") {
-    /* Criar nova equipe */
     $nomeEquipe = trim($_POST["nome_equipe"] ?? "");
 
     if ($nomeEquipe === "") {
@@ -100,7 +145,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       }
     }
   } elseif ($acao === "entrar") {
-    /* Entrar em equipe existente */
     $equipeId = (int) ($_POST["equipe_id"] ?? 0);
 
     if ($equipeId <= 0) {
@@ -123,7 +167,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ":usuario_id" => $usuarioId,
             ":equipe_id" => $equipeId
           ]);
-
           header("Location: dashboard.php");
           exit;
         } catch (PDOException $e) {
@@ -139,7 +182,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   }
 }
 
-/* Listar equipes disponíveis */
+$projetoAtual = null;
+
+if ($usuario["equipe_id"]) {
+  $sqlProjetoAtual = "
+    SELECT id, nome, descricao, categoria, repositorio
+    FROM projetos
+    WHERE equipe_id = :equipe_id
+    LIMIT 1
+  ";
+  $stmtProjetoAtual = $pdo->prepare($sqlProjetoAtual);
+  $stmtProjetoAtual->execute([":equipe_id" => $usuario["equipe_id"]]);
+  $projetoAtual = $stmtProjetoAtual->fetch();
+}
+
 $sqlEquipes = "
   SELECT e.id, e.nome, COUNT(p.id) AS integrantes
   FROM equipes e
@@ -163,7 +219,6 @@ $equipes = $stmtEquipes->fetchAll();
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body class="team-page">
-  <!-- Navbar -->
   <header class="navbar">
     <div class="container navbar-content">
       <a href="../index.html" class="logo">
@@ -176,10 +231,8 @@ $equipes = $stmtEquipes->fetchAll();
       </div>
     </div>
   </header>
-  <!-- Conteúdo Principal -->
   <main class="team-main">
     <div class="container team-container">
-      <!-- Cabeçalho -->
       <section class="team-header">
         <div class="team-header-content">
           <span class="section-label">ÁREA DO PARTICIPANTE</span>
@@ -188,7 +241,6 @@ $equipes = $stmtEquipes->fetchAll();
         </div>
         <a href="dashboard.php" class="back-button">← Voltar para o dashboard</a>
       </section>
-      <!-- Mensagens de Erro/Sucesso -->
       <?php if ($mensagem): ?>
         <div class="form-message show <?= htmlspecialchars($tipoMensagem) ?>">
           <span class="message-icon">!</span>
@@ -196,9 +248,7 @@ $equipes = $stmtEquipes->fetchAll();
         </div>
       <?php endif; ?>
       <?php if (!$usuario["equipe_id"]): ?>
-        <!-- Opções de Equipe -->
         <section class="team-options">
-          <!-- Criar Equipe -->
           <article class="team-card">
             <div class="card-number">01</div>
             <div class="card-content">
@@ -218,11 +268,9 @@ $equipes = $stmtEquipes->fetchAll();
               </form>
             </div>
           </article>
-          <!-- Divisor -->
           <div class="team-divider">
             <span>ou</span>
           </div>
-          <!-- Entrar em Equipe -->
           <article class="team-card">
             <div class="card-number">02</div>
             <div class="card-content">
@@ -250,7 +298,6 @@ $equipes = $stmtEquipes->fetchAll();
             </div>
           </article>
         </section>
-        <!-- Informações -->
         <section class="team-info">
           <div class="info-item">
             <span class="info-number">01</span>
@@ -275,7 +322,6 @@ $equipes = $stmtEquipes->fetchAll();
           </div>
         </section>
       <?php else: ?>
-        <!-- Equipe Atual -->
         <section class="current-team">
           <div class="current-team-top">
             <span class="card-label">MINHA EQUIPE</span>
@@ -284,11 +330,48 @@ $equipes = $stmtEquipes->fetchAll();
           <div class="current-team-icon">&lt;/&gt;</div>
           <h2>Você já está em uma equipe.</h2>
           <p>Para continuar, volte ao dashboard e acompanhe as informações da sua equipe e do projeto.</p>
+          <?php if ($projetoAtual): ?>
+            <div class="current-project">
+              <span class="card-label">PROJETO DA EQUIPE</span>
+              <h3><?= htmlspecialchars($projetoAtual["nome"]) ?></h3>
+              <p><?= htmlspecialchars($projetoAtual["descricao"]) ?></p>
+              <div class="project-details">
+                <span>
+                  <strong>Categoria:</strong>
+                  <?= htmlspecialchars($projetoAtual["categoria"]) ?>
+                </span>
+                <?php if (!empty($projetoAtual["repositorio"])): ?>
+                  <a href="<?= htmlspecialchars($projetoAtual["repositorio"]) ?>" target="_blank" rel="noopener noreferrer">
+                    Ver repositório →
+                  </a>
+                <?php endif; ?>
+              </div>
+            </div>
+          <?php else: ?>
+            <div class="current-project-empty">
+              <span class="card-label">PROJETO</span>
+              <p>Sua equipe ainda não possui um projeto cadastrado.</p>
+              <a href="submissao.html" class="btn btn-primary">
+                Submeter projeto
+                <span>→</span>
+              </a>
+            </div>
+          <?php endif; ?>
           <div class="current-team-actions">
             <a href="dashboard.php" class="btn btn-primary">
               Voltar para o dashboard
               <span>→</span>
             </a>
+            <?php if ($projetoAtual): ?>
+              <form method="POST">
+                <input type="hidden" name="acao" value="excluir_projeto" />
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este projeto?\n\nTodas as avaliações relacionadas a ele também serão excluídas.\n\nEssa ação não pode ser desfeita.');">
+                  Excluir projeto
+                  <span>×</span>
+                </button>
+              </form>
+            <?php endif; ?>
+
             <form method="POST">
               <input type="hidden" name="acao" value="sair" />
               <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja sair da equipe?');">
@@ -301,7 +384,6 @@ $equipes = $stmtEquipes->fetchAll();
       <?php endif; ?>
     </div>
   </main>
-  <!-- Rodapé -->
   <footer class="footer">
     <div class="container footer-content">
       <span>© 2026 — 1º Hackathon do Curso</span>

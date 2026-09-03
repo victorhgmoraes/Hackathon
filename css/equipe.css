@@ -9,7 +9,7 @@
   --texto: #123a35;
   --texto-secundario: #5d7772;
   --borda: #dce9e6;
-  --sombra: 0 20px 60px rgba(9, 78, 69, 0.10);
+  --sombra: 0 20px 60px rgba(9, 78, 69, 0.1);
   --raio: 18px;
 }
 
@@ -47,6 +47,7 @@ select {
 }
 
 /* Navbar */
+
 .navbar {
   width: 100%;
   height: 82px;
@@ -113,7 +114,11 @@ select {
   color: var(--verde);
   font-size: 13px;
   font-weight: 700;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .logout-button:hover {
@@ -124,6 +129,7 @@ select {
 }
 
 /* Página */
+
 .team-page {
   min-height: 100vh;
   display: flex;
@@ -134,7 +140,7 @@ select {
   flex: 1;
   padding: 80px 0 100px;
   background:
-    radial-gradient(circle at 8% 15%, rgba(3, 214, 175, 0.10), transparent 30%),
+    radial-gradient(circle at 8% 15%, rgba(3, 214, 175, 0.1), transparent 30%),
     radial-gradient(circle at 92% 85%, rgba(1, 159, 72, 0.08), transparent 30%),
     var(--fundo);
 }
@@ -145,6 +151,7 @@ select {
 }
 
 /* Cabeçalho */
+
 .team-header {
   display: flex;
   align-items: flex-end;
@@ -197,7 +204,11 @@ select {
   color: var(--verde);
   font-size: 13px;
   font-weight: 700;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .back-button:hover {
@@ -208,6 +219,7 @@ select {
 }
 
 /* Mensagens */
+
 .form-message {
   width: 100%;
   margin-bottom: 30px;
@@ -225,6 +237,7 @@ select {
 }
 
 /* Cards de criação e entrada */
+
 .team-options {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 70px minmax(0, 1fr);
@@ -242,7 +255,9 @@ select {
   border: 1px solid var(--borda);
   border-radius: var(--raio);
   box-shadow: var(--sombra);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .team-card:hover {
@@ -296,6 +311,7 @@ select {
 }
 
 /* Divisor */
+
 .team-divider {
   display: flex;
   align-items: center;
@@ -324,6 +340,7 @@ select {
 }
 
 /* Formulários */
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -348,7 +365,10 @@ select {
   outline: none;
   color: var(--texto);
   font-size: 14px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .form-group input::placeholder {
@@ -364,7 +384,7 @@ select {
 .form-group select:focus {
   background: var(--branco);
   border-color: var(--verde-claro);
-  box-shadow: 0 0 0 3px rgba(1, 159, 72, 0.10);
+  box-shadow: 0 0 0 3px rgba(1, 159, 72, 0.1);
 }
 
 .form-group select {
@@ -372,6 +392,7 @@ select {
 }
 
 /* Botões */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -383,7 +404,11 @@ select {
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .btn-primary {
@@ -406,6 +431,7 @@ select {
 }
 
 /* Informações */
+
 .team-info {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -455,6 +481,7 @@ select {
 }
 
 /* Equipe atual */
+
 .current-team {
   padding: 45px;
   background: var(--branco);
@@ -463,18 +490,18 @@ select {
   box-shadow: var(--sombra);
 }
 
-.current-team-header {
+.current-team-top {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
   padding-bottom: 25px;
   margin-bottom: 30px;
   border-bottom: 1px solid var(--borda);
 }
 
-.current-team-header .card-label {
-  margin: 0;
+.current-team-top .card-label {
+  margin-bottom: 0;
 }
 
 .team-status {
@@ -515,10 +542,100 @@ select {
   line-height: 1.7;
 }
 
+/* Projeto atual */
+
+.current-project {
+  margin-top: 30px;
+  padding: 28px;
+  background: var(--fundo);
+  border: 1px solid var(--borda);
+  border-radius: 13px;
+}
+
+.current-project .card-label {
+  margin-bottom: 10px;
+}
+
+.current-project h3 {
+  margin-bottom: 12px;
+  color: var(--verde-escuro);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.current-project > p {
+  max-width: 850px;
+  margin-bottom: 22px;
+  color: var(--texto-secundario);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.project-details {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding-top: 18px;
+  border-top: 1px solid var(--borda);
+}
+
+.project-details span {
+  color: var(--texto-secundario);
+  font-size: 13px;
+}
+
+.project-details strong {
+  color: var(--verde-escuro);
+}
+
+.project-details a {
+  color: var(--verde);
+  font-size: 13px;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+.project-details a:hover {
+  color: var(--verde-claro);
+}
+
+/* Projeto vazio */
+
+.current-project-empty {
+  margin-top: 30px;
+  padding: 28px;
+  background: var(--fundo);
+  border: 1px dashed var(--borda);
+  border-radius: 13px;
+}
+
+.current-project-empty .card-label {
+  margin-bottom: 10px;
+}
+
+.current-project-empty p {
+  margin-bottom: 22px;
+  color: var(--texto-secundario);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.current-project-empty .btn {
+  width: auto;
+}
+
+/* Ações */
+
 .current-team-actions {
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-top: 30px;
+}
+
+.current-team-actions form {
+  margin: 0;
 }
 
 .current-team-actions .btn {
@@ -528,15 +645,16 @@ select {
 .btn-danger {
   background: transparent;
   color: #b42318;
-  border: 1px solid rgba(180, 35, 24, 0.20);
+  border: 1px solid rgba(180, 35, 24, 0.2);
 }
 
 .btn-danger:hover {
   background: rgba(220, 38, 38, 0.06);
-  border-color: rgba(180, 35, 24, 0.30);
+  border-color: rgba(180, 35, 24, 0.3);
 }
 
 /* Footer */
+
 .footer {
   background: var(--verde-escuro);
   color: rgba(255, 255, 255, 0.75);
@@ -559,6 +677,7 @@ select {
 }
 
 /* Tablet */
+
 @media (max-width: 1100px) {
   .container {
     width: min(100% - 48px, 950px);
@@ -614,6 +733,7 @@ select {
 }
 
 /* Celular */
+
 @media (max-width: 650px) {
   .container {
     width: calc(100% - 32px);
@@ -687,7 +807,7 @@ select {
     padding: 27px 22px;
   }
 
-  .current-team-header {
+  .current-team-top {
     align-items: flex-start;
     flex-direction: column;
     gap: 12px;
@@ -695,6 +815,12 @@ select {
 
   .current-team h2 {
     font-size: 25px;
+  }
+
+  .project-details {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .current-team-actions {
