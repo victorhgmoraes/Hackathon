@@ -118,7 +118,7 @@ if ($equipeId) {
 <body class="dashboard-page">
   <header class="navbar">
     <div class="container navbar-content">
-      <a href="../index.html" class="logo">
+      <a href="../index.php" class="logo">
         <span class="logo-symbol">&lt;/&gt;</span>
         <span>HACKA<span>THON</span></span>
       </a>
@@ -256,7 +256,7 @@ if ($equipeId) {
   <footer class="footer">
     <div class="container footer-content">
       <div class="footer-brand">
-        <a href="../index.html" class="logo">
+        <a href="../index.php" class="logo">
           <span class="logo-symbol">&lt;/&gt;</span>
           <span>HACKA<span>THON</span></span>
         </a>
@@ -265,8 +265,8 @@ if ($equipeId) {
       <div class="footer-links">
         <div>
           <strong>Evento</strong>
-          <a href="../index.html#sobre">Sobre</a>
-          <a href="../index.html#como-funciona">Como funciona</a>
+          <a href="../index.php#sobre">Sobre</a>
+          <a href="../index.php#como-funciona">Como funciona</a>
           <a href="../agenda.html">Agenda</a>
         </div>
         <div>

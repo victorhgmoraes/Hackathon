@@ -159,7 +159,7 @@ $comentarioAtual = $avaliacao["comentario"] ?? "";
 <body class="evaluation-page">
   <header class="navbar">
     <div class="container navbar-content">
-      <a href="../index.html" class="logo">
+      <a href="../index.php" class="logo">
         <span class="logo-symbol">&lt;/&gt;</span>
         <span>HACKA<span>THON</span></span>
       </a>

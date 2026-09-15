@@ -1,3 +1,9 @@
+<?php
+  session_start();
+  $usuarioLogado = isset($_SESSION["usuario_id"]);
+
+?>
+
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -13,7 +19,7 @@
 <body>
   <header class="navbar">
     <div class="container navbar-content">
-      <a href="index.html" class="logo">
+      <a href="index.php" class="logo">
         <span class="logo-symbol">&lt;/&gt;</span>
         <span>HACKA<span>THON</span></span>
       </a>
@@ -24,7 +30,13 @@
         <a href="agenda.html">Agenda</a>
         <a href="resultados.php">Resultados</a>
       </nav>
-      <a href="login.html" class="btn btn-outline">Entrar</a>
+      <?php if ($usuarioLogado): ?>
+        <a href="<?= $_SESSION["tipo"] === "jurado" ? "jurado/dashboard.php" : "participante/dashboard.php" ?>" class="btn btn-outline">
+          Minha área
+        </a>
+      <?php else: ?>
+        <a href="login.html" class="btn btn-outline">Entrar</a>
+      <?php endif; ?>
       <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-controls="navLinks" aria-expanded="false">☰</button>
     </div>
   </header>
@@ -36,7 +48,13 @@
           <h1>Transforme uma ideia em <span>uma solução.</span></h1>
           <p>Um desafio de inovação e tecnologia no qual equipes desenvolvem soluções para um problema real e apresentam seus projetos aos jurados.</p>
           <div class="hero-actions">
-            <a href="login.html" class="btn btn-primary">Acessar o sistema <span>→</span></a>
+            <?php if ($usuarioLogado): ?>
+              <a href="<?= $_SESSION["tipo"] === "jurado" ? "jurado/dashboard.php" : "participante/dashboard.php" ?>" class="btn btn-primary">
+                Acessar minha área <span>→</span>
+              </a>
+            <?php else: ?>
+              <a href="login.html" class="btn btn-primary">Acessar o sistema <span>→</span></a>
+            <?php endif; ?>
             <a href="agenda.html" class="btn btn-secondary">Ver agenda</a>
           </div>
         </div>
@@ -140,7 +158,7 @@
   <footer class="footer">
     <div class="container footer-content">
       <div>
-        <a href="index.html" class="logo">
+        <a href="index.php" class="logo">
           <span class="logo-symbol">&lt;/&gt;</span>
           <span>HACKA<span>THON</span></span>
         </a>
@@ -151,7 +169,11 @@
         <a href="#etapas">Como funciona</a>
         <a href="agenda.html">Agenda</a>
         <a href="resultados.php">Resultados</a>
-        <a href="login.html">Entrar</a>
+        <?php if ($usuarioLogado): ?>
+          <a href="logout.php">Sair</a>
+        <?php else: ?>
+          <a href="login.html">Entrar</a>
+        <?php endif; ?>
       </nav>
     </div>
     <div class="container footer-bottom">
