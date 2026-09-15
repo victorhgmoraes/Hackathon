@@ -253,6 +253,7 @@ input {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: 24px;
 }
 .form-group label {
   color: var(--verde-escuro);
@@ -367,6 +368,24 @@ input {
 .login-button {
   width: 100%;
   margin-top: 4px;
+}
+
+.forgot-password {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+  margin-bottom: 22px;
+}
+
+.forgot-password a {
+  color: var(--verde);
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.25s ease;
+}
+
+.forgot-password a:hover {
+  color: var(--verde-claro);
 }
 
 /* RODAPÉ DO CARD */

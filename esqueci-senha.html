@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Recupere o acesso à sua conta do 1º Hackathon do Curso."
+    />
+    <title>Esqueci minha senha | 1º Hackathon do Curso</title>
+
+    <link rel="stylesheet" href="css/login.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container navbar-content">
+        <a href="index.php" class="logo">
+          <span class="logo-symbol">&lt;/&gt;</span>
+          <span>HACKA<span>THON</span></span>
+        </a>
+
+        <a href="login.html" class="back-link">← Voltar para o login</a>
+      </div>
+    </header>
+    <main class="login-main">
+      <div class="container login-container">
+        <section class="login-intro">
+          <span class="section-label">RECUPERAÇÃO DE ACESSO</span>
+          <h1>Recupere sua <span>conta.</span></h1>
+          <p>
+            Informe o e-mail cadastrado e enviaremos as instruções para
+            redefinir sua senha.
+          </p>
+          <div class="login-info">
+            <div class="info-item">
+              <span class="info-number">01</span>
+              <div>
+                <h3>Informe seu e-mail</h3>
+                <p>Utilize o mesmo e-mail cadastrado no sistema.</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="info-number">02</span>
+              <div>
+                <h3>Verifique sua caixa de entrada</h3>
+                <p>Você receberá um link para criar uma nova senha.</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="info-number">03</span>
+              <div>
+                <h3>Crie uma nova senha</h3>
+                <p>Acesse o link recebido e defina sua nova senha.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="login-card">
+          <div class="card-header">
+            <div class="card-icon">&lt;/&gt;</div>
+            <div>
+              <span class="section-label">RECUPERAR SENHA</span>
+              <h2>Esqueci minha senha</h2>
+              <p>Informe o e-mail da sua conta.</p>
+            </div>
+          </div>
+          <form id="forgotPasswordForm">
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="seu@email.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+            <div
+              class="form-message"
+              id="forgotPasswordMessage"
+              role="alert"
+              aria-live="polite"
+            ></div>
+
+            <button type="submit" class="btn btn-primary login-button">
+              Enviar link <span>→</span>
+            </button>
+          </form>
+          <div class="login-footer">
+            <span>Lembrou sua senha?</span>
+            <a href="login.html">Voltar para o login →</a>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="container footer-content">
+        <span>© 2026 — 1º Hackathon do Curso</span>
+        <span>Engenharia de Software</span>
+      </div>
+    </footer>
+    <script src="js/esqueci-senha.js"></script>
+  </body>
+</html>
