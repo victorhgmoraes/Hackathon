@@ -1,5 +1,8 @@
 <?php
 
+session_start();
+$usuarioLogado = isset($_SESSION["usuario_id"]);
+
 $host = "localhost";
 $dbname = "hackathon";
 $user = "root";
@@ -62,15 +65,33 @@ $totalProjetos = count($resultados);
           <span class="logo-symbol">&lt;/&gt;</span>
           <span>HACKA<span>THON</span></span>
         </a>
-        <nav class="nav-links">
+
+        <nav class="nav-links" id="navLinks">
           <a href="index.php">Início</a>
           <a href="index.php#sobre">Sobre</a>
-          <a href="index.php#como-funciona">Como funciona</a>
-          <a href="agenda.html">Agenda</a>
+          <a href="index.php#etapas">Etapas</a>
+          <a href="agenda.php">Agenda</a>
           <a href="resultados.php" class="active">Resultados</a>
         </nav>
-        <a href="login.html" class="btn btn-outline">Entrar</a>
-        <button class="menu-toggle" id="menuToggle">☰</button>
+
+        <?php if ($usuarioLogado): ?>
+          <a href="<?= $_SESSION["tipo"] === "jurado" ? "jurado/dashboard.php" : "participante/dashboard.php" ?>" class="btn btn-outline">
+            Minha área
+          </a>
+        <?php else: ?>
+          <a href="login.html" class="btn btn-outline">Entrar</a>
+        <?php endif; ?>
+
+        <button
+          type="button"
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Abrir menu"
+          aria-controls="navLinks"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
       </div>
     </header>
     <main>
@@ -219,12 +240,18 @@ $totalProjetos = count($resultados);
           <div>
             <strong>Evento</strong>
             <a href="index.php#sobre">Sobre</a>
-            <a href="index.php#como-funciona">Como funciona</a>
-            <a href="agenda.html">Agenda</a>
+            <a href="index.php#etapas">Como funciona</a>
+            <a href="agenda.php">Agenda</a>
           </div>
           <div>
             <strong>Sistema</strong>
-            <a href="login.html">Entrar</a>
+            <?php if ($usuarioLogado): ?>
+              <a href="<?= $_SESSION["tipo"] === "jurado" ? "jurado/dashboard.php" : "participante/dashboard.php" ?>">
+                Minha área
+              </a>
+            <?php else: ?>
+              <a href="login.html">Entrar</a>
+            <?php endif; ?>
             <a href="resultados.php">Resultados</a>
           </div>
         </div>

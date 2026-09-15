@@ -234,7 +234,7 @@ if ($equipeId) {
             <span class="section-label">03 — EVENTO</span>
             <h2>Informações</h2>
           </div>
-          <a href="../agenda.html" class="dashboard-link">Ver agenda →</a>
+          <a href="../agenda.php" class="dashboard-link">Ver agenda →</a>
         </div>
         <div class="event-card">
           <div>
@@ -267,7 +267,7 @@ if ($equipeId) {
           <strong>Evento</strong>
           <a href="../index.php#sobre">Sobre</a>
           <a href="../index.php#como-funciona">Como funciona</a>
-          <a href="../agenda.html">Agenda</a>
+          <a href="../agenda.php">Agenda</a>
         </div>
         <div>
           <strong>Sistema</strong>

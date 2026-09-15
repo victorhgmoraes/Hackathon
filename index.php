@@ -27,7 +27,7 @@
         <a href="#inicio">Início</a>
         <a href="#sobre">Sobre</a>
         <a href="#etapas">Etapas</a>
-        <a href="agenda.html">Agenda</a>
+        <a href="agenda.php">Agenda</a>
         <a href="resultados.php">Resultados</a>
       </nav>
       <?php if ($usuarioLogado): ?>
@@ -55,7 +55,7 @@
             <?php else: ?>
               <a href="login.html" class="btn btn-primary">Acessar o sistema <span>→</span></a>
             <?php endif; ?>
-            <a href="agenda.html" class="btn btn-secondary">Ver agenda</a>
+            <a href="agenda.php" class="btn btn-secondary">Ver agenda</a>
           </div>
         </div>
         <div class="hero-info">
@@ -167,7 +167,7 @@
       <nav class="footer-links" aria-label="Links do rodapé">
         <a href="#sobre">Sobre</a>
         <a href="#etapas">Como funciona</a>
-        <a href="agenda.html">Agenda</a>
+        <a href="agenda.php">Agenda</a>
         <a href="resultados.php">Resultados</a>
         <?php if ($usuarioLogado): ?>
           <a href="logout.php">Sair</a>

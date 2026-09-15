@@ -2,19 +2,23 @@
 :root {
   --verde-escuro: #094e45;
   --verde: #076458;
+  --verde-medio: #076c5f;
   --verde-claro: #019f48;
   --turquesa: #03d6af;
   --turquesa-vivo: #00e5c7;
   --branco: #ffffff;
-  --fundo: #f4f8f7;
-  --texto: #123a35;
-  --texto-secundario: #5d7772;
-  --borda: #dce9e6;
-  --sombra: 0 20px 60px rgba(9, 78, 69, 0.10);
-  --raio: 18px;
+  --cinza-50: #f7faf9;
+  --cinza-100: #eef4f2;
+  --cinza-200: #dce8e5;
+  --cinza-500: #647875;
+  --cinza-700: #344946;
+  --preto: #10201d;
+  --container: 1400px;
+  --radius: 18px;
+  --transition: 0.25s ease;
 }
 
-/*RESET E BASE*/
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -27,9 +31,10 @@ html {
 
 body {
   min-height: 100vh;
-  background: var(--fundo);
-  color: var(--texto);
   font-family: "Inter", sans-serif;
+  color: var(--preto);
+  background: var(--branco);
+  line-height: 1.6;
 }
 
 a {
@@ -37,120 +42,151 @@ a {
   text-decoration: none;
 }
 
-button {
+button,
+input,
+textarea,
+select {
   font: inherit;
 }
 
-/*LAYOUT GERAL*/
 .container {
-  width: min(1380px, calc(100% - 80px));
+  width: min(100% - 80px, var(--container));
   margin: 0 auto;
 }
 
-/*NAVBAR E LOGO*/
+/* NAVBAR */
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   width: 100%;
-  height: 82px;
   background: rgba(255, 255, 255, 0.96);
-  border-bottom: 1px solid var(--borda);
-  display: flex;
-  align-items: center;
-  position: relative;
-  z-index: 10;
+  border-bottom: 1px solid var(--cinza-200);
+  backdrop-filter: blur(14px);
 }
 
 .navbar-content {
+  min-height: 82px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 30px;
+  gap: 40px;
 }
 
+/* LOGO */
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: var(--verde-escuro);
+  gap: 12px;
   font-family: "Space Grotesk", sans-serif;
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.5px;
-}
-
-.logo > span:last-child > span {
-  color: var(--verde-claro);
+  color: var(--verde-escuro);
+  white-space: nowrap;
 }
 
 .logo-symbol {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   border-radius: 10px;
   background: var(--verde-escuro);
   color: var(--turquesa-vivo);
   font-family: "Space Grotesk", sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
 }
 
-/*MENU E NAVEGAÇÃO*/
+.logo > span:last-child > span {
+  color: var(--verde-claro);
+}
+
+/* NAV LINKS */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 34px;
+  margin-left: auto;
 }
 
 .nav-links a {
-  color: var(--texto-secundario);
-  font-size: 13px;
+  position: relative;
+  color: var(--cinza-700);
+  font-size: 14px;
   font-weight: 600;
-  transition: color 0.2s ease;
+  transition: color var(--transition), transform var(--transition);
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 0;
+  height: 2px;
+  background: var(--verde-claro);
+  transition: width var(--transition);
 }
 
 .nav-links a:hover {
-  color: var(--verde-claro);
+  color: var(--verde-escuro);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
 }
 
 .nav-links a.active {
   color: var(--verde-escuro);
 }
 
-/*BOTÕES*/
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* BOTÕES */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 0 19px;
+  gap: 14px;
+  min-height: 48px;
+  padding: 0 24px;
   border-radius: 9px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
 }
 
 .btn-outline {
+  border: 1px solid var(--verde-escuro);
+  color: var(--verde-escuro);
   background: transparent;
-  border: 1px solid var(--verde);
-  color: var(--verde);
 }
 
 .btn-outline:hover {
-  background: var(--verde);
+  background: var(--verde-escuro);
   color: var(--branco);
-  transform: translateY(-1px);
 }
 
+/* MENU MOBILE */
 .menu-toggle {
   display: none;
-  width: 42px;
-  height: 42px;
-  border: 1px solid var(--borda);
-  border-radius: 9px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--cinza-200);
+  border-radius: 8px;
   background: var(--branco);
   color: var(--verde-escuro);
+  font-size: 22px;
   cursor: pointer;
 }
 

@@ -1,3 +1,8 @@
+<?php
+  session_start();
+  $usuarioLogado = isset($_SESSION["usuario_id"]);
+?>
+
 <!doctype html>
 <html lang="pt-BR">
   <head>
@@ -22,10 +27,16 @@
           <a href="index.php">Início</a>
           <a href="index.php#sobre">Sobre</a>
           <a href="index.php#etapas">Etapas</a>
-          <a href="agenda.html" class="active">Agenda</a>
+          <a href="agenda.php" class="active">Agenda</a>
           <a href="resultados.php">Resultados</a>
         </nav>
-        <a href="login.html" class="btn btn-outline">Entrar</a>
+        <?php if ($usuarioLogado): ?>
+          <a href="<?= $_SESSION["tipo"] === "jurado" ? "jurado/dashboard.php" : "participante/dashboard.php" ?>" class="btn btn-outline">
+            Minha área
+          </a>
+        <?php else: ?>
+          <a href="login.html" class="btn btn-outline">Entrar</a>
+        <?php endif; ?>
         <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-controls="navLinks" aria-expanded="false">
           ☰
         </button>
@@ -88,7 +99,7 @@
         <nav class="footer-links" aria-label="Links do rodapé">
           <a href="index.php#sobre">Sobre</a>
           <a href="index.php#etapas">Como funciona</a>
-          <a href="agenda.html">Agenda</a>
+          <a href="agenda.php">Agenda</a>
           <a href="resultados.php">Resultados</a>
           <a href="login.html">Entrar</a>
         </nav>
