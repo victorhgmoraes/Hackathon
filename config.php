@@ -24,7 +24,7 @@ try {
     );
 } catch (PDOException $e) {
     http_response_code(500);
-    die("Erro ao conectar com o banco de dados.");
+    die("Erro ao conectar com o banco de dados: " . $e->getMessage());
 }
 
 if (session_status() === PHP_SESSION_NONE) {
