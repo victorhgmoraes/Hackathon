@@ -5,11 +5,11 @@ require_once __DIR__ . "/vendor/autoload.php";
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
-$host = $_ENV["DB_HOST"] ?? "localhost";
-$port = $_ENV["DB_PORT"] ?? "3306";
-$dbname = $_ENV["DB_NAME"] ?? "hackathon";
-$user = $_ENV["DB_USER"] ?? "root";
-$password = $_ENV["DB_PASSWORD"] ?? "";
+$host = getenv("DB_HOST") ?: ($_ENV["DB_HOST"] ?? "localhost");
+$port = getenv("DB_PORT") ?: ($_ENV["DB_PORT"] ?? "3306");
+$dbname = getenv("DB_NAME") ?: ($_ENV["DB_NAME"] ?? "hackathon");
+$user = getenv("DB_USER") ?: ($_ENV["DB_USER"] ?? "root");
+$password = getenv("DB_PASSWORD") ?: ($_ENV["DB_PASSWORD"] ?? "");
 
 try {
     $pdo = new PDO(
