@@ -81,16 +81,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ":usuario_id" => $recuperacao["usuario_id"]
         ]);
 
-        $sql = "DELETE FROM recuperacao_senha WHERE id = :id";
+        if ($stmt->rowCount() === 0) {
 
-        $stmt = $pdo->prepare($sql);
+            $mensagem = "Não foi possível alterar a senha.";
+            $tipoMensagem = "erro";
 
-        $stmt->execute([
-            ":id" => $recuperacao["id"]
-        ]);
+        } else {
 
-        $mensagem = "Senha alterada com sucesso!";
-        $tipoMensagem = "sucesso";
+            $sql = "DELETE FROM recuperacao_senha WHERE id = :id";
+
+            $stmt = $pdo->prepare($sql);
+
+            $stmt->execute([
+                ":id" => $recuperacao["id"]
+            ]);
+
+            $mensagem = "Senha alterada com sucesso!";
+            $tipoMensagem = "sucesso";
+        }
     }
 }
 ?>
