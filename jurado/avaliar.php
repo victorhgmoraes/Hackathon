@@ -4,7 +4,7 @@ if (!isset($_SESSION["usuario_id"])) {
   header("Location: ../login.html");
   exit;
 }
-
+//Verifica se existe uma sessão ativa
 $juradoId = $_SESSION["usuario_id"];
 
 $sqlUsuario = "SELECT nome, tipo FROM usuarios WHERE id = :id LIMIT 1";
@@ -15,7 +15,7 @@ $usuario = $stmtUsuario->fetch(PDO::FETCH_ASSOC);
 if (!$usuario || $usuario["tipo"] !== "jurado") {
   die("Acesso negado.");
 }
-
+//Captura o ID do projeto via parâmetro GET na URL
 $projetoId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
 if (!$projetoId) {
