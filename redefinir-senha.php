@@ -49,11 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $senha = $_POST["senha"] ?? "";
     $confirmarSenha = $_POST["confirmar_senha"] ?? "";
 
-    echo "<pre>";
-    var_dump($senha);
-    var_dump($confirmarSenha);
-    echo "</pre>";
-    exit;
     if ($senha === "" || $confirmarSenha === "") {
 
         $mensagem = "Preencha os dois campos de senha.";
@@ -86,24 +81,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ":usuario_id" => $recuperacao["usuario_id"]
         ]);
 
-        if ($stmt->rowCount() === 0) {
-
-            $mensagem = "Não foi possível alterar a senha.";
-            $tipoMensagem = "erro";
-
-        } else {
-
-            $sql = "DELETE FROM recuperacao_senha WHERE id = :id";
-
-            $stmt = $pdo->prepare($sql);
-
-            $stmt->execute([
-                ":id" => $recuperacao["id"]
-            ]);
-
-            $mensagem = "Senha alterada com sucesso!";
-            $tipoMensagem = "sucesso";
-        }
+        echo "<pre>";
+        echo "Usuario ID: ";
+        var_dump($recuperacao["usuario_id"]);
+        echo "Linhas alteradas: ";
+        var_dump($stmt->rowCount());
+        echo "Erro PDO: ";
+        var_dump($stmt->errorInfo());
+        echo "</pre>";
+        exit;
     }
 }
 ?>
