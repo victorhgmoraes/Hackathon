@@ -79,6 +79,12 @@ try {
 
     $link = $appUrl . "/redefinir-senha.php?token=" . urlencode($token);
 
+    echo json_encode([
+        "sucesso" => true,
+        "mensagem" => "Banco e recuperação funcionaram até antes do envio do e-mail."
+    ]);
+    exit;
+    
     $mail = new PHPMailer(true);
 
     $mail->isSMTP();
