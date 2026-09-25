@@ -29,7 +29,19 @@ if (forgotPasswordForm) {
         }),
       });
 
-      const resultado = await resposta.json();
+      const texto = await resposta.text();
+
+      let resultado;
+
+      try {
+        resultado = JSON.parse(texto);
+      } catch (erro) {
+        console.error("Resposta recebida do servidor:", texto);
+
+        throw new Error(
+          "O servidor não retornou uma resposta JSON válida."
+        );
+      }
 
       forgotPasswordMessage.textContent = resultado.mensagem;
 
@@ -41,8 +53,10 @@ if (forgotPasswordForm) {
       }
 
     } catch (erro) {
+      console.error("Erro:", erro);
+
       forgotPasswordMessage.textContent =
-        "Erro ao conectar com o servidor.";
+        "Não foi possível processar a solicitação.";
 
       forgotPasswordMessage.classList.add("show", "error");
     }

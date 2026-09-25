@@ -1,16 +1,15 @@
 <?php
+
 require_once __DIR__ . "/config.php";
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
 
 header("Content-Type: application/json; charset=UTF-8");
 
 $dados = json_decode(file_get_contents("php://input"), true);
 
-$email = trim($dados["email"] ?? "");
+$email = strtolower(trim($dados["email"] ?? ""));
 
 if ($email === "") {
     echo json_encode([
@@ -21,9 +20,14 @@ if ($email === "") {
 }
 
 try {
-    $sql = "SELECT id, nome, email FROM usuarios WHERE email = :email LIMIT 1";
+
+    $sql = "SELECT id, nome, email
+            FROM usuarios
+            WHERE email = :email
+            LIMIT 1";
 
     $stmt = $pdo->prepare($sql);
+
     $stmt->execute([
         ":email" => $email
     ]);
@@ -42,19 +46,19 @@ try {
 
     $expiraEm = date("Y-m-d H:i:s", time() + 1800);
 
-    $sql = "DELETE FROM recuperacao_senha WHERE usuario_id = :usuario_id";
+    $sql = "DELETE FROM recuperacao_senha
+            WHERE usuario_id = :usuario_id";
 
     $stmt = $pdo->prepare($sql);
+
     $stmt->execute([
         ":usuario_id" => $usuario["id"]
     ]);
 
-    $sql = "
-        INSERT INTO recuperacao_senha
-        (usuario_id, token, expira_em)
-        VALUES
-        (:usuario_id, :token, :expira_em)
-    ";
+    $sql = "INSERT INTO recuperacao_senha
+            (usuario_id, token, expira_em)
+            VALUES
+            (:usuario_id, :token, :expira_em)";
 
     $stmt = $pdo->prepare($sql);
 
@@ -64,10 +68,13 @@ try {
         ":expira_em" => $expiraEm
     ]);
 
-    $appUrl = rtrim($_ENV["APP_URL"] ?? "", "/");
+    $appUrl = rtrim(
+        getenv("APP_URL") ?: ($_ENV["APP_URL"] ?? ""),
+        "/"
+    );
 
     if ($appUrl === "") {
-        $appUrl = "http://" . $_SERVER["HTTP_HOST"] . rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
+        $appUrl = "https://" . $_SERVER["HTTP_HOST"];
     }
 
     $link = $appUrl . "/redefinir-senha.php?token=" . urlencode($token);
@@ -75,18 +82,22 @@ try {
     $mail = new PHPMailer(true);
 
     $mail->isSMTP();
-    $mail->Host = $_ENV["MAIL_HOST"];
+
+    $mail->Host = getenv("MAIL_HOST") ?: ($_ENV["MAIL_HOST"] ?? "");
     $mail->SMTPAuth = true;
-    $mail->Username = $_ENV["MAIL_USERNAME"];
-    $mail->Password = $_ENV["MAIL_PASSWORD"];
+
+    $mail->Username = getenv("MAIL_USERNAME") ?: ($_ENV["MAIL_USERNAME"] ?? "");
+    $mail->Password = getenv("MAIL_PASSWORD") ?: ($_ENV["MAIL_PASSWORD"] ?? "");
+
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = $_ENV["MAIL_PORT"];
+
+    $mail->Port = getenv("MAIL_PORT") ?: ($_ENV["MAIL_PORT"] ?? "587");
 
     $mail->CharSet = "UTF-8";
 
     $mail->setFrom(
-        $_ENV["MAIL_USERNAME"],
-        $_ENV["MAIL_FROM_NAME"]
+        $mail->Username,
+        getenv("MAIL_FROM_NAME") ?: ($_ENV["MAIL_FROM_NAME"] ?? "1º Hackathon do Curso")
     );
 
     $mail->addAddress(
