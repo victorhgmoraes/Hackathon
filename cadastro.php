@@ -17,6 +17,14 @@ if ($nome === "" || $email === "" || $matricula === "" || $senha === "") {
     exit;
 }
 
+if (strlen($senha) < 6) {
+    echo json_encode([
+        "sucesso" => false,
+        "mensagem" => "A senha deve ter pelo menos 6 caracteres."
+    ]);
+    exit;
+}
+
 try {
     $sql = "SELECT email, matricula
             FROM usuarios
