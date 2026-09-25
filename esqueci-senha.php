@@ -178,6 +178,6 @@ try {
 
     echo json_encode([
         "sucesso" => false,
-        "mensagem" => "Não foi possível processar a recuperação."
+        "mensagem" => "Erro banco: " . $e->getMessage()
     ]);
 }
