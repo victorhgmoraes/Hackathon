@@ -26,6 +26,10 @@ $stmt->execute([
 
 $recuperacao = $stmt->fetch(PDO::FETCH_ASSOC);
 
+echo "<pre>";
+var_dump($recuperacao);
+exit;
+
 if (!$recuperacao) {
     die("Link de recuperação inválido ou já utilizado.");
 }
