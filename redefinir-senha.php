@@ -45,12 +45,15 @@ $mensagem = "";
 $tipoMensagem = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    echo "POST RECEBIDO";
-    exit;
 
     $senha = $_POST["senha"] ?? "";
     $confirmarSenha = $_POST["confirmar_senha"] ?? "";
 
+    echo "<pre>";
+    var_dump($senha);
+    var_dump($confirmarSenha);
+    echo "</pre>";
+    exit;
     if ($senha === "" || $confirmarSenha === "") {
 
         $mensagem = "Preencha os dois campos de senha.";
