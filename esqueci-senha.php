@@ -171,7 +171,7 @@ try {
 
     echo json_encode([
         "sucesso" => false,
-        "mensagem" => "Não foi possível enviar o e-mail de recuperação."
+        "mensagem" => "Erro SMTP: " . $e->getMessage()
     ]);
 
 } catch (PDOException $e) {
