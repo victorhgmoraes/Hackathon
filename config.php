@@ -11,6 +11,7 @@ $dbname = getenv("DB_NAME") ?: ($_ENV["DB_NAME"] ?? "hackathon");
 $user = getenv("DB_USER") ?: ($_ENV["DB_USER"] ?? "root");
 $password = getenv("DB_PASSWORD") ?: ($_ENV["DB_PASSWORD"] ?? "");
 
+// Carrega as variáveis do .env e inicializa a conexão PDO com o MySQL
 try {
     $pdo = new PDO(
         "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
@@ -27,6 +28,7 @@ try {
     die("Erro ao conectar com o banco de dados: " . $e->getMessage());
 }
 
+// Garante que a sessão seja iniciada com cookies seguros (HttpOnly e SameSite)
 if (session_status() === PHP_SESSION_NONE) {
     $secureCookie = !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off";
 
