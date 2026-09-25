@@ -75,18 +75,26 @@ try {
     }
 
     $link = $appUrl . "/redefinir-senha.php?token=" . urlencode($token);
-
-    $apiKey = getenv("RESEND_API_KEY");
+    
+    $apiKey = getenv("BREVO_API_KEY");
 
     if (!$apiKey) {
-        throw new Exception("RESEND_API_KEY não configurada.");
+        throw new Exception("BREVO_API_KEY não configurada.");
     }
 
     $dadosEmail = [
-        "from" => "1º Hackathon do Curso <onboarding@resend.dev>",
-        "to" => [$usuario["email"]],
+        "sender" => [
+            "name" => "Hackathon",
+            "email" => "victorhgm12@gmail.com"
+        ],
+        "to" => [
+            [
+                "email" => $usuario["email"],
+                "name" => $usuario["nome"]
+            ]
+        ],
         "subject" => "Recuperação de senha - 1º Hackathon do Curso",
-        "html" => "
+        "htmlContent" => "
             <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto;'>
                 <h2>Olá, {$usuario["nome"]}!</h2>
 
@@ -130,21 +138,22 @@ try {
                 </p>
             </div>
         ",
-        "text" =>
+        "textContent" =>
             "Olá, {$usuario["nome"]}!\n\n" .
             "Acesse o link abaixo para redefinir sua senha:\n\n" .
             $link . "\n\n" .
             "Este link será válido por 30 minutos."
     ];
 
-    $ch = curl_init("https://api.resend.com/emails");
+    $ch = curl_init("https://api.brevo.com/v3/smtp/email");
 
     curl_setopt_array($ch, [
         CURLOPT_POST => true,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER => [
-            "Authorization: Bearer " . $apiKey,
-            "Content-Type: application/json"
+            "api-key: " . $apiKey,
+            "Content-Type: application/json",
+            "Accept: application/json"
         ],
         CURLOPT_POSTFIELDS => json_encode($dadosEmail),
         CURLOPT_TIMEOUT => 20
@@ -156,7 +165,7 @@ try {
         $erro = curl_error($ch);
         curl_close($ch);
 
-        throw new Exception("Erro de conexão com o Resend: " . $erro);
+        throw new Exception("Erro de conexão com o Brevo: " . $erro);
     }
 
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -164,7 +173,9 @@ try {
     curl_close($ch);
 
     if ($status < 200 || $status >= 300) {
-        throw new Exception("Resend retornou HTTP " . $status . ": " . $resposta);
+        throw new Exception(
+            "Brevo retornou HTTP " . $status . ": " . $resposta
+        );
     }
 
     echo json_encode([
