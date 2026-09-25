@@ -45,6 +45,8 @@ $mensagem = "";
 $tipoMensagem = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    echo "POST RECEBIDO";
+    exit;
 
     $senha = $_POST["senha"] ?? "";
     $confirmarSenha = $_POST["confirmar_senha"] ?? "";
