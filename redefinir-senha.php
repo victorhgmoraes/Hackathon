@@ -46,78 +46,59 @@ $tipoMensagem = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    try {
+    $senha = $_POST["senha"] ?? "";
+    $confirmarSenha = $_POST["confirmar_senha"] ?? "";
 
-        $senha = $_POST["senha"] ?? "";
-        $confirmarSenha = $_POST["confirmar_senha"] ?? "";
+    if ($senha === "" || $confirmarSenha === "") {
 
-        if ($senha === "" || $confirmarSenha === "") {
+        $mensagem = "Preencha os dois campos de senha.";
+        $tipoMensagem = "erro";
 
-            $mensagem = "Preencha os dois campos de senha.";
-            $tipoMensagem = "erro";
+    } elseif (strlen($senha) < 6) {
 
-        } elseif (strlen($senha) < 6) {
+        $mensagem = "A senha deve ter pelo menos 6 caracteres.";
+        $tipoMensagem = "erro";
 
-            $mensagem = "A senha deve ter pelo menos 6 caracteres.";
-            $tipoMensagem = "erro";
+    } elseif ($senha !== $confirmarSenha) {
 
-        } elseif ($senha !== $confirmarSenha) {
+        $mensagem = "As senhas não são iguais.";
+        $tipoMensagem = "erro";
 
-            $mensagem = "As senhas não são iguais.";
+    } else {
+
+        $novaSenha = password_hash($senha, PASSWORD_DEFAULT);
+
+        $sql = "
+            UPDATE usuarios
+            SET senha = :senha
+            WHERE id = :usuario_id
+        ";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->execute([
+            ":senha" => $novaSenha,
+            ":usuario_id" => $recuperacao["usuario_id"]
+        ]);
+
+        if ($stmt->rowCount() === 0) {
+
+            $mensagem = "Não foi possível alterar a senha.";
             $tipoMensagem = "erro";
 
         } else {
 
-            $novaSenha = password_hash($senha, PASSWORD_DEFAULT);
-
-            echo "<pre>";
-
-            echo "1. Senha gerada\n";
-            var_dump($novaSenha);
-
-            echo "\n2. Usuario ID\n";
-            var_dump($recuperacao["usuario_id"]);
-
-            $sql = "
-                UPDATE usuarios
-                SET senha = :senha
-                WHERE id = :usuario_id
-            ";
-
-            echo "\n3. Executando UPDATE...\n";
+            $sql = "DELETE FROM recuperacao_senha WHERE id = :id";
 
             $stmt = $pdo->prepare($sql);
 
             $stmt->execute([
-                ":senha" => $novaSenha,
-                ":usuario_id" => $recuperacao["usuario_id"]
+                ":id" => $recuperacao["id"]
             ]);
 
-            echo "4. UPDATE executado\n";
-
-            echo "\n5. Linhas alteradas:\n";
-            var_dump($stmt->rowCount());
-
-            echo "\n6. Erro PDO:\n";
-            var_dump($stmt->errorInfo());
-
-            echo "</pre>";
-
-            exit;
+            $mensagem = "Senha alterada com sucesso!";
+            $tipoMensagem = "sucesso";
         }
-
-    } catch (Throwable $e) {
-
-        echo "<pre>";
-        echo "ERRO:\n\n";
-        echo $e->getMessage();
-        echo "\n\nArquivo:\n";
-        echo $e->getFile();
-        echo "\n\nLinha:\n";
-        echo $e->getLine();
-        echo "</pre>";
-
-        exit;
     }
 }
 ?>
